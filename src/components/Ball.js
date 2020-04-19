@@ -1,4 +1,4 @@
-const BALL_RADIUS = 1;
+const BALL_RADIUS = 0.8;
 const HEIGHT_SCALE = 0.3;
 const BALL_SPEED_M_S = 10;
 const BALL_UP_HEIGHT = 10;
