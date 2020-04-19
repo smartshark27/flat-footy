@@ -8,99 +8,98 @@ const CENTRE_HALF_FROM_GOAL_Y = FIFTY_LINE_DISTANCE_FROM_GOAL - 5;
 const WING_FROM_SQUARE_X = 0;
 const CENTRE_DISTANCE_FROM_CIRCLE = 3;
 const RUCK_DISTANCE_FROM_CIRCLE = 1;
-
 const DEFAULT_PLAYER_POSITIONS = {
   LFP: {
     name: "Left Forward Pocket",
     x: -POCKET_FROM_GOAL_X + TEAM_OFFSET,
-    y: -(BOUNDARY_HEIGHT / 2) + POCKET_FROM_GOAL_Y
+    y: -(BOUNDARY_HEIGHT / 2) + POCKET_FROM_GOAL_Y,
   },
   FF: {
     name: "Full Forward",
     x: TEAM_OFFSET,
-    y: -(BOUNDARY_HEIGHT / 2) + FULL_FROM_GOAL_Y
+    y: -(BOUNDARY_HEIGHT / 2) + FULL_FROM_GOAL_Y,
   },
   RFP: {
     name: "Right Forward Pocket",
     x: POCKET_FROM_GOAL_X + TEAM_OFFSET,
-    y: -(BOUNDARY_HEIGHT / 2) + POCKET_FROM_GOAL_Y
+    y: -(BOUNDARY_HEIGHT / 2) + POCKET_FROM_GOAL_Y,
   },
   LHF: {
     name: "Left Half Forward Flank",
     x: -FLANK_FROM_GOAL_X + TEAM_OFFSET,
-    y: -(BOUNDARY_HEIGHT / 2) + FLANK_FROM_GOAL_Y
+    y: -(BOUNDARY_HEIGHT / 2) + FLANK_FROM_GOAL_Y,
   },
   CHF: {
     name: "Centre Half Forward",
     x: TEAM_OFFSET,
-    y: -(BOUNDARY_HEIGHT / 2) + CENTRE_HALF_FROM_GOAL_Y
+    y: -(BOUNDARY_HEIGHT / 2) + CENTRE_HALF_FROM_GOAL_Y,
   },
   RHF: {
     name: "Right Half Forward Flank",
     x: FLANK_FROM_GOAL_X + TEAM_OFFSET,
-    y: -(BOUNDARY_HEIGHT / 2) + FLANK_FROM_GOAL_Y
+    y: -(BOUNDARY_HEIGHT / 2) + FLANK_FROM_GOAL_Y,
   },
   LW: {
     name: "Left Wing",
     x: -(CENTRE_SQUARE_WIDTH / 2) - WING_FROM_SQUARE_X,
-    y: TEAM_OFFSET
+    y: TEAM_OFFSET,
   },
   C: {
     name: "Centre",
     x: 0,
-    y: CENTRE_CIRCLE_RADIUS + CENTRE_DISTANCE_FROM_CIRCLE
+    y: CENTRE_CIRCLE_RADIUS + CENTRE_DISTANCE_FROM_CIRCLE,
   },
   RW: {
     name: "Right Wing",
     x: CENTRE_SQUARE_WIDTH / 2 + WING_FROM_SQUARE_X,
-    y: TEAM_OFFSET
+    y: TEAM_OFFSET,
   },
   LHB: {
     name: "Left Half Back Flank",
     x: -FLANK_FROM_GOAL_X - TEAM_OFFSET,
-    y: BOUNDARY_HEIGHT / 2 - FLANK_FROM_GOAL_Y
+    y: BOUNDARY_HEIGHT / 2 - FLANK_FROM_GOAL_Y,
   },
   CHB: {
     name: "Centre Half Back",
     x: -TEAM_OFFSET,
-    y: BOUNDARY_HEIGHT / 2 - CENTRE_HALF_FROM_GOAL_Y
+    y: BOUNDARY_HEIGHT / 2 - CENTRE_HALF_FROM_GOAL_Y,
   },
   RHB: {
     name: "Right Half Back Flank",
     x: FLANK_FROM_GOAL_X - TEAM_OFFSET,
-    y: BOUNDARY_HEIGHT / 2 - FLANK_FROM_GOAL_Y
+    y: BOUNDARY_HEIGHT / 2 - FLANK_FROM_GOAL_Y,
   },
   LBP: {
     name: "Left Back Pocket",
     x: -POCKET_FROM_GOAL_X - TEAM_OFFSET,
-    y: BOUNDARY_HEIGHT / 2 - POCKET_FROM_GOAL_Y
+    y: BOUNDARY_HEIGHT / 2 - POCKET_FROM_GOAL_Y,
   },
   FB: {
     name: "Full Back",
     x: -TEAM_OFFSET,
-    y: BOUNDARY_HEIGHT / 2 - FULL_FROM_GOAL_Y
+    y: BOUNDARY_HEIGHT / 2 - FULL_FROM_GOAL_Y,
   },
   RBP: {
     name: "Right Back Pocket",
     x: POCKET_FROM_GOAL_X - TEAM_OFFSET,
-    y: BOUNDARY_HEIGHT / 2 - POCKET_FROM_GOAL_Y
+    y: BOUNDARY_HEIGHT / 2 - POCKET_FROM_GOAL_Y,
   },
   R: {
     name: "Ruck",
     x: 0,
-    y: CENTRE_CIRCLE_RADIUS - RUCK_DISTANCE_FROM_CIRCLE
+    y: CENTRE_CIRCLE_RADIUS - RUCK_DISTANCE_FROM_CIRCLE,
   },
   RRV: {
     name: "Ruck Rover",
     x: -CENTRE_CIRCLE_RADIUS - CENTRE_DISTANCE_FROM_CIRCLE,
-    y: -TEAM_OFFSET
+    y: -TEAM_OFFSET,
   },
   RV: {
     name: "Rover",
     x: CENTRE_CIRCLE_RADIUS + CENTRE_DISTANCE_FROM_CIRCLE,
-    y: TEAM_OFFSET
+    y: TEAM_OFFSET,
   },
-}
+};
 
 class Team extends Component {
   constructor(name, goalDirection) {
@@ -114,7 +113,28 @@ class Team extends Component {
 
   draw() {
     for (var position in DEFAULT_PLAYER_POSITIONS) {
-      this.addElement(new Player(position, this.name))
+      this.addElement(new Player(position, this.name));
     }
+  }
+
+  moveClosestPlayerTowardsBall(ballX, ballY) {
+    const player = this.getClosestPlayerTo(ballX, ballY);
+    player.runTowards(ballX, ballY);
+  }
+
+  getClosestPlayerTo(x, y) {
+    var closestPlayer = this.elements[0];
+    var shortestDistance = Infinity;
+
+    for (var player of this.elements) {
+      const [playerX, playerY] = player.getXY();
+      const distance = getDistanceBetween(x, y, playerX, playerY);
+      if (distance < shortestDistance) {
+        closestPlayer = player;
+        shortestDistance = distance;
+      }
+    }
+
+    return closestPlayer;
   }
 }

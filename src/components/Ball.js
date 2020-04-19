@@ -21,7 +21,8 @@ class Ball extends Component {
     this.addElement(this.ball);
   }
 
-  ballUp() {
+  throwUp() {
+    game.screenButton.remove();
     var height = BALL_UP_START_HEIGHT;
     var velocity = BALL_SPEED_M_S / FPS;
     const interval = setInterval(() => {
@@ -44,26 +45,9 @@ class Ball extends Component {
     return BALL_RADIUS + height * HEIGHT_SCALE;
   }
 
-  // moveTo(newX, newY, height) {
-  //   const [x, y] = this.getPosition();
-  //   const interval = setInterval(() => {
-
-  //     if (x === newX && y === newY && z === height) {
-  //       clearInterval(interval);
-  //     }
-  //   }, FRAME_DELAY);
-  // }
-
-  // getPosition() {
-  //   const x = this.ball.getAttribute("cx");
-  //   const y = this.ball.getAttribute("cy");
-  //   return [x, y];
-  // }
-
-  // setPosition(x, y, height) {
-  //   this.ball
-  //     .setAttribute("cx", x)
-  //     .setAttribute("cy", y)
-  //     .setAttribute("r", this.generateRadiusFromHeight(height));
-  // }
+  getXY() {
+    const x = Number(this.ball.getAttribute("cx"));
+    const y = Number(this.ball.getAttribute("cy"));
+    return [x, y];
+  }
 }
