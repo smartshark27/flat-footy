@@ -1,8 +1,8 @@
 const FPS = 60;
 const FRAME_DELAY = Math.floor(1000 / FPS);
 
-const VIEWBOX_WIDTH = 200;
-const VIEWBOX_HEIGHT = 200;
+const VIEWBOX_WIDTH = 100;
+const VIEWBOX_HEIGHT = 100;
 
 var game;
 

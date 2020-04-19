@@ -4,7 +4,8 @@ const COLORS = {
   BLACK: "Black",
   LIGHT_GREY: "LightGrey",
   GREEN: "Green",
-  LIGHT_GREEN: "#1dad25"
+  LIGHT_GREEN: "#1dad25",
+  YELLOW: "Yellow"
 };
 
 const FONTS = {
