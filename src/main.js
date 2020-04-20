@@ -19,6 +19,5 @@ function handleLoad() {
 function setViewbox(x, y, width, height) {
   const canvas = document.getElementById("canvas");
   const viewBoxStr = `${x.toString()} ${y.toString()} ${width.toString()} ${height.toString()}`;
-  console.log(viewBoxStr);
   canvas.setAttribute("viewBox", viewBoxStr);
 }
