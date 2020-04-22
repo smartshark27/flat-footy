@@ -80,6 +80,8 @@ class Ball extends Component {
     const targetX = Math.cos(angle) * distance;
     const targetY = Math.sin(angle) * distance;
     this.moveTo(targetX, targetY);
+    game.blueTeam.moveClosestPlayerTowardsBall(targetX, targetY);
+    game.redTeam.moveClosestPlayerTowardsBall(targetX, targetY);
   }
 
   moveTo(targetX, targetY) {
