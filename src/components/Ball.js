@@ -37,6 +37,7 @@ class Ball extends Component {
         this.tapToRandomLocation();
       }
     }, FRAME_DELAY);
+    game.intervals.push(interval);
   }
 
   getHeight() {
@@ -117,6 +118,7 @@ class Ball extends Component {
         this.setHeight(0);
         clearInterval(interval);
       }
-    });
+    }, FRAME_DELAY);
+    game.intervals.push(interval);
   }
 }

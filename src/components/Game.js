@@ -1,13 +1,11 @@
 class Game extends Component {
   constructor() {
     super();
+
+    this.intervals = [];
+
     this.draw();
   }
-
-  static ball;
-  static blueTeam;
-  static redTeam;
-  static screenButton;
 
   draw() {
     this.addElement(new Field());
@@ -26,5 +24,9 @@ class Game extends Component {
     const [ballX, ballY] = this.ball.getXY();
     this.blueTeam.moveClosestPlayerTowardsBall(ballX, ballY);
     this.redTeam.moveClosestPlayerTowardsBall(ballX, ballY);
+  }
+
+  clearAllIntervals() {
+    this.intervals.forEach(interval => clearInterval(interval));
   }
 }
