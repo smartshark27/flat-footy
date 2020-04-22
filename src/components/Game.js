@@ -1,7 +1,6 @@
 class Game extends Component {
   constructor() {
     super();
-
     this.intervals = [];
 
     this.draw();
@@ -15,11 +14,15 @@ class Game extends Component {
     this.addElement(this.redTeam);
     this.ball = new Ball();
     this.addElement(this.ball);
+    this.message = new Message();
+    this.addElement(this.message);
     this.screenButton = new ScreenButton("game.start()");
     this.addElement(this.screenButton);
   }
 
   start() {
+    this.message.set("Game started");
+    this.screenButton.clearOnClick();
     this.ball.throwUp();
     const [ballX, ballY] = this.ball.getXY();
     this.blueTeam.moveClosestPlayerTowardsBall(ballX, ballY);

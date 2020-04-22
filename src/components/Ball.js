@@ -9,6 +9,7 @@ const BALL_MAX_TAP_RADIUS = 12;
 class Ball extends Component {
   constructor() {
     super();
+    this.player = null;
     this.draw();
   }
 
@@ -24,7 +25,6 @@ class Ball extends Component {
   }
 
   throwUp() {
-    game.screenButton.remove();
     var height = BALL_UP_START_HEIGHT;
     var velocity = BALL_SPEED / FPS;
     const interval = setInterval(() => {
@@ -34,6 +34,7 @@ class Ball extends Component {
         velocity = -velocity;
       } else if (height <= BALL_UP_START_HEIGHT && velocity < 0) {
         clearInterval(interval);
+        this.ball.setAttribute("rx", BALL_RADIUS).setAttribute("ry", BALL_RADIUS);
         this.tapToRandomLocation();
       }
     }, FRAME_DELAY);
@@ -95,27 +96,27 @@ class Ball extends Component {
       targetY,
       speed
     );
-    const highestX = (targetX - x) / 2;
-    const speedHeight =
-      getDistanceBetween(x, y, x + velocityX, x + velocityY) / 2;
-    var height = this.getHeight();
-    var rising = true;
+    // const highestX = (targetX - x) / 2;
+    // const speedHeight =
+    //   getDistanceBetween(x, y, x + velocityX, x + velocityY) / 2;
+    // var height = this.getHeight();
+    // var rising = true;
     const interval = setInterval(() => {
       x += velocityX;
       y += velocityY;
       this.setXY(x, y);
 
-      height += rising ? speedHeight : -speedHeight;
-      this.setHeight(height);
-      if (closelyEquals(x, highestX, Math.abs(velocityX))) {
-        rising = false;
-      }
+      // height += rising ? speedHeight : -speedHeight;
+      // this.setHeight(height);
+      // if (closelyEquals(x, highestX, Math.abs(velocityX))) {
+      //   rising = false;
+      // }
 
       if (
         closelyEquals(x, targetX, Math.abs(velocityX)) &&
         closelyEquals(y, targetY, Math.abs(velocityY))
       ) {
-        this.setHeight(0);
+        // this.setHeight(0);
         clearInterval(interval);
       }
     }, FRAME_DELAY);

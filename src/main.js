@@ -21,3 +21,13 @@ function setViewbox(x, y, width, height) {
   const viewBoxStr = `${x.toString()} ${y.toString()} ${width.toString()} ${height.toString()}`;
   canvas.setAttribute("viewBox", viewBoxStr);
 }
+
+function convertClientToViewboxPoint(x, y) {
+  const canvas = document.getElementById("canvas");
+  const clientPoint = canvas.createSVGPoint();
+  clientPoint.x = event.clientX;
+  clientPoint.y = event.clientY;
+  const transform = canvas.getScreenCTM().inverse();
+  const viewboxPoint = clientPoint.matrixTransform(transform);
+  return [viewboxPoint.x, viewboxPoint.y];
+}
