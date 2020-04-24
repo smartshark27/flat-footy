@@ -2,6 +2,8 @@ const BOUNDARY_WIDTH = 100;
 const BOUNDARY_HEIGHT = 160;
 const GRASS_WIDTH = BOUNDARY_WIDTH + 20;
 const GRASS_HEIGHT = BOUNDARY_HEIGHT + 20;
+const BACKGROUND_WIDTH = GRASS_WIDTH * 2;
+const BACKGROUND_HEIGHT = GRASS_HEIGHT * 2;
 const CENTRE_SQUARE_WIDTH = 50;
 const CENTRE_SQUARE_HEIGHT = 50;
 const CENTRE_CIRCLE_RADIUS = 5;
@@ -33,10 +35,10 @@ class Field extends Component {
     _drawBackground() {
       this.addElement(
         SVG.new("rect")
-          .setAttribute("x", -GRASS_WIDTH)
-          .setAttribute("y", -GRASS_HEIGHT)
-          .setAttribute("width", GRASS_WIDTH * 2)
-          .setAttribute("height", GRASS_HEIGHT * 2)
+          .setAttribute("x", -BACKGROUND_WIDTH / 2)
+          .setAttribute("y", -BACKGROUND_HEIGHT / 2)
+          .setAttribute("width", BACKGROUND_WIDTH)
+          .setAttribute("height", BACKGROUND_HEIGHT)
           .setAttribute("fill", COLORS.LIGHT_GREY)
       );
     }

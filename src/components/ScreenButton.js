@@ -8,10 +8,10 @@ class ScreenButton extends Component {
   draw() {
     this.button = SVG.new("rect")
       .hide()
-      .setAttribute("x", "-50%")
-      .setAttribute("y", "-50%")
-      .setAttribute("width", "100%")
-      .setAttribute("height", "100%")
+      .setAttribute("x", -GRASS_WIDTH / 2)
+      .setAttribute("y", -GRASS_HEIGHT / 2)
+      .setAttribute("width", GRASS_WIDTH)
+      .setAttribute("height", GRASS_HEIGHT)
       .setAttribute("onclick", this.handleClick);
     this.addElement(this.button);
   }

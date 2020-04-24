@@ -23,13 +23,36 @@ class Game extends Component {
   start() {
     this.message.set("Game started");
     this.screenButton.clearOnClick();
-    this.ball.throwUp();
+    this.centreBallUp();
+  }
+
+  centreBallUp() {
     const [ballX, ballY] = this.ball.getXY();
-    this.blueTeam.moveClosestPlayerTowardsBall(ballX, ballY);
-    this.redTeam.moveClosestPlayerTowardsBall(ballX, ballY);
+    this.ball.throwUp();
+    this.moveClosestPlayersTowardsBall(ballX, ballY, true);
+  }
+
+  moveClosestPlayersTowardsBall(ballX, ballY, tap = false) {
+    this.blueTeam.moveClosestPlayerTowardsBall(ballX, ballY, tap);
+    this.redTeam.moveClosestPlayerTowardsBall(ballX, ballY, tap);
+  }
+
+  freezeRuckmen() {
+    this.blueTeam.freezeRuckman();
+    this.redTeam.freezeRuckman();
   }
 
   clearAllIntervals() {
-    this.intervals.forEach(interval => clearInterval(interval));
+    this.intervals.forEach((interval) => clearInterval(interval));
+    clearArray(this.intervals);
+  }
+
+  getAllPlayers() {
+    return this.blueTeam.getPlayers().concat(this.redTeam.getPlayers());
+  }
+
+  centreAt(x, y) {
+    centreViewboxAt(x, y);
+    this.message.moveTo(x, y - MESSAGE_DISTANCE_ABOVE_CENTRE);
   }
 }

@@ -1,6 +1,6 @@
 const BALL_RADIUS = 0.8;
-const HEIGHT_SCALE = 0.3;
-const BALL_SPEED = 8;
+const HEIGHT_SCALE = 0.1;
+const BALL_SPEED = 12;
 const BALL_UP_HEIGHT = 10;
 const BALL_UP_START_HEIGHT = 0;
 const BALL_MIN_TAP_RADIUS = 4;
@@ -27,15 +27,20 @@ class Ball extends Component {
   throwUp() {
     var height = BALL_UP_START_HEIGHT;
     var velocity = BALL_SPEED / FPS;
+    this.setHeight(height);
     const interval = setInterval(() => {
-      this.setHeight(height);
       height += velocity;
       if (height >= BALL_UP_HEIGHT) {
         velocity = -velocity;
-      } else if (height <= BALL_UP_START_HEIGHT && velocity < 0) {
+      } else if (height <= BALL_UP_START_HEIGHT) {
+        height = BALL_UP_START_HEIGHT;
+      }
+      this.setHeight(height);
+      if (height <= BALL_UP_START_HEIGHT && velocity < 0) {
         clearInterval(interval);
-        this.ball.setAttribute("rx", BALL_RADIUS).setAttribute("ry", BALL_RADIUS);
-        this.tapToRandomLocation();
+        this.ball
+          .setAttribute("rx", BALL_RADIUS)
+          .setAttribute("ry", BALL_RADIUS);
       }
     }, FRAME_DELAY);
     game.intervals.push(interval);
@@ -79,11 +84,11 @@ class Ball extends Component {
       BALL_MIN_TAP_RADIUS,
       BALL_MAX_TAP_RADIUS
     );
-    const targetX = Math.cos(angle) * distance;
-    const targetY = Math.sin(angle) * distance;
+    const [x, y] = this.getXY();
+    const targetX = Math.cos(angle) * distance + x;
+    const targetY = Math.sin(angle) * distance + y;
     this.moveTo(targetX, targetY);
-    game.blueTeam.moveClosestPlayerTowardsBall(targetX, targetY);
-    game.redTeam.moveClosestPlayerTowardsBall(targetX, targetY);
+    game.moveClosestPlayersTowardsBall(targetX, targetY);
   }
 
   moveTo(targetX, targetY) {
@@ -105,6 +110,7 @@ class Ball extends Component {
       x += velocityX;
       y += velocityY;
       this.setXY(x, y);
+      game.centreAt(x, y);
 
       // height += rising ? speedHeight : -speedHeight;
       // this.setHeight(height);
