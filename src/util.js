@@ -34,3 +34,11 @@ function closelyEquals(a, b, margin) {
 function generateRandomAngle() {
   return generateRandomNumberBetween(0, 360);
 }
+
+function mirror(array) {
+  return array.concat(cloneArray(array).reverse());
+}
+
+function cloneArray(array) {
+  return array.slice(0);
+}
