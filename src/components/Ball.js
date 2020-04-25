@@ -9,7 +9,7 @@ const BALL_MIN_TAP_RADIUS = 4;
 const BALL_MAX_TAP_RADIUS = 12;
 const BALL_SPIN_MIN_RADIUS_Y = 0.5;
 const BALL_SPIN_NUMBER_OF_FRAMES = 3;
-const OUT_OF_BOUNDS_RESET_DELAY = 2000;
+const BOUNDARY_CROSSED_RESET_DELAY = 2000;
 const OUT_OF_BOUNDS_ON_THE_FULL_MESSAGE = "Out on the full!";
 
 class Ball extends Component {
@@ -189,9 +189,80 @@ class Ball extends Component {
   }
 
   hasCrossedBoundary() {
-    if (this.isOutOfBounds()) {
-      game.message.set(OUT_OF_BOUNDS_ON_THE_FULL_MESSAGE);
-      resetGameAfter(OUT_OF_BOUNDS_RESET_DELAY);
+    if (this.hasCollidedWithGoalPost()) {
+      game.message.set("Hit the goal post!");
+      resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
+      return true;
+    } else if (this.hasCollidedWithBehindPost()) {
+      game.message.set("Hit the behind post!");
+      resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
+      return true;
+    } else if (this.hasCollidedWithGoalZone()) {
+      game.message.set("GOAL!");
+      resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
+      return true;
+    } else if (this.isOutOfBounds()) {
+      game.message.set("Out on the full!");
+      resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  hasCollidedWithGoalPost() {
+    const collisionDistance = POST_RADIUS + BALL_RADIUS_X;
+    const [x, y] = this.getXY();
+    if (
+      getDistanceBetween(x, y, LEFT_GOAL_POST_X, TOP_POSTS_Y) <
+        collisionDistance ||
+      getDistanceBetween(x, y, RIGHT_GOAL_POST_X, TOP_POSTS_Y) <
+        collisionDistance ||
+      getDistanceBetween(x, y, LEFT_GOAL_POST_X, BOTTOM_POSTS_Y) <
+        collisionDistance ||
+      getDistanceBetween(x, y, RIGHT_GOAL_POST_X, BOTTOM_POSTS_Y) <
+        collisionDistance
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  hasCollidedWithBehindPost() {
+    const collisionDistance = POST_RADIUS + BALL_RADIUS_X;
+    const [x, y] = this.getXY();
+    if (
+      getDistanceBetween(x, y, LEFT_BEHIND_POST_X, TOP_POSTS_Y) <
+        collisionDistance ||
+      getDistanceBetween(x, y, RIGHT_BEHIND_POST_X, TOP_POSTS_Y) <
+        collisionDistance ||
+      getDistanceBetween(x, y, LEFT_BEHIND_POST_X, BOTTOM_POSTS_Y) <
+        collisionDistance ||
+      getDistanceBetween(x, y, RIGHT_BEHIND_POST_X, BOTTOM_POSTS_Y) <
+        collisionDistance
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  hasCollidedWithGoalZone() {
+    const [x, y] = this.getXY();
+    const topZoneBoundary = game.field.topGoalZone.getBoundary();
+    const bottomZoneBoundary = game.field.bottomGoalZone.getBoundary();
+    if (
+      x >= topZoneBoundary.left &&
+      x <= topZoneBoundary.right &&
+      y >= topZoneBoundary.top &&
+      y <= topZoneBoundary.bottom
+    ) {
+      return true;
+    } else if (
+      x >= bottomZoneBoundary.left &&
+      x <= bottomZoneBoundary.right &&
+      y >= bottomZoneBoundary.top &&
+      y <= bottomZoneBoundary.bottom
+    ) {
       return true;
     } else {
       return false;
@@ -200,12 +271,11 @@ class Ball extends Component {
 
   isOutOfBounds() {
     const [x, y] = this.getXY();
-    const boundary = game.field.getBoundary();
     return (
-      x <= boundary.left ||
-      x >= boundary.right ||
-      y <= boundary.top ||
-      y >= boundary.bottom
+      x <= BOUNDARY_LEFT - BALL_COLLECT_RADIUS ||
+      x >= BOUNDARY_RIGHT + BALL_COLLECT_RADIUS ||
+      y <= BOUNDARY_TOP - BALL_COLLECT_RADIUS ||
+      y >= BOUNDARY_BOTTOM + BALL_COLLECT_RADIUS
     );
   }
 }
