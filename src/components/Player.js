@@ -1,7 +1,7 @@
 const PLAYER_RADIUS = 1;
 const PLAYER_SPEED = 5;
 const COLLECT_RADIUS = PLAYER_RADIUS + BALL_COLLECT_RADIUS;
-const COLLECT_HEIGHT = 0;
+const COLLECT_HEIGHT = 2;
 const MAX_PASS_DISTANCE = 55;
 const PLAYER_FREEZE_TIME = 200;
 const PLAYER_COLLISION_RADIUS = PLAYER_RADIUS;
@@ -126,6 +126,7 @@ class Player extends Component {
 
   maybePassBall(event) {
     game.screenButton.clearOnClick();
+    game.message.clear();
     const [targetX, targetY] = convertClientToViewboxPoint(
       event.clientX,
       event.clientY

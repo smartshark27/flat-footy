@@ -30,3 +30,14 @@ function convertClientToViewboxPoint(x, y) {
   const viewboxPoint = clientPoint.matrixTransform(transform);
   return [viewboxPoint.x, viewboxPoint.y];
 }
+
+function resetGameAfter(milliseconds) {
+  sleep(milliseconds).then(() => resetGame());
+}
+
+function resetGame() {
+  game.clearAllIntervals();
+  game.remove();
+  centreViewboxAt(0, 0);
+  game = new Game();
+}

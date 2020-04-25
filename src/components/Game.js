@@ -7,7 +7,8 @@ class Game extends Component {
   }
 
   draw() {
-    this.addElement(new Field());
+    this.field = new Field();
+    this.addElement(this.field);
     this.blueTeam = new Team("Blue");
     this.addElement(this.blueTeam);
     this.redTeam = new Team("Red");

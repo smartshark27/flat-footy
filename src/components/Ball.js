@@ -9,6 +9,8 @@ const BALL_MIN_TAP_RADIUS = 4;
 const BALL_MAX_TAP_RADIUS = 12;
 const BALL_SPIN_MIN_RADIUS_Y = 0.5;
 const BALL_SPIN_NUMBER_OF_FRAMES = 3;
+const OUT_OF_BOUNDS_RESET_DELAY = 2000;
+const OUT_OF_BOUNDS_ON_THE_FULL_MESSAGE = "Out on the full!";
 
 class Ball extends Component {
   constructor() {
@@ -136,14 +138,18 @@ class Ball extends Component {
     );
     const degrees = getDirection(velocityX, velocityY);
     const distance = getDistanceBetween(x, y, targetX, targetY);
+    var crossedBoundary = false;
 
     const interval = setInterval(() => {
       x += velocityX;
       y += velocityY;
       this.setXY(x, y);
+      if (!crossedBoundary && this.hasCrossedBoundary()) {
+        crossedBoundary = true;
+      }
       this.rotate(degrees);
-
       this.spin();
+
       const height = this.getHeight();
       const distanceFromTarget = getDistanceBetween(x, y, targetX, targetY);
       const velocityHeight =
@@ -180,5 +186,26 @@ class Ball extends Component {
 
   getCurrentSpinRadius() {
     return this.spinRadiuses[this.spinRadiusIndex];
+  }
+
+  hasCrossedBoundary() {
+    if (this.isOutOfBounds()) {
+      game.message.set(OUT_OF_BOUNDS_ON_THE_FULL_MESSAGE);
+      resetGameAfter(OUT_OF_BOUNDS_RESET_DELAY);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isOutOfBounds() {
+    const [x, y] = this.getXY();
+    const boundary = game.field.getBoundary();
+    return (
+      x <= boundary.left ||
+      x >= boundary.right ||
+      y <= boundary.top ||
+      y >= boundary.bottom
+    );
   }
 }
