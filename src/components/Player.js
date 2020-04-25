@@ -3,7 +3,7 @@ const PLAYER_SPEED = 5;
 const COLLECT_RADIUS = PLAYER_RADIUS + BALL_RADIUS;
 const COLLECT_HEIGHT = 0;
 const MAX_PASS_DISTANCE = 55;
-const PLAYER_FREEZE_TIME = 1000;
+const PLAYER_FREEZE_TIME = 200;
 const PLAYER_COLLISION_RADIUS = PLAYER_RADIUS;
 const PLAYER_WAIT_DISTANCE_FROM_TARGET = BALL_RADIUS / 2;
 
@@ -45,17 +45,17 @@ class Player extends Component {
   }
 
   runTowards(targetX, targetY, tapBall = false) {
-    var [x, y] = this.getXY();
     const speed = PLAYER_SPEED / FPS;
-    const [velocityX, velocityY] = calculateVelocity(
-      x,
-      y,
-      targetX,
-      targetY,
-      speed
-    );
     var waiting = false;
     const interval = setInterval(() => {
+      var [x, y] = this.getXY();
+      const [velocityX, velocityY] = calculateVelocity(
+        x,
+        y,
+        targetX,
+        targetY,
+        speed
+      );
       if (!this.willCollideWithAnotherPlayer(x + velocityX, y)) {
         x += velocityX;
       }
