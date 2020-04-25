@@ -125,6 +125,7 @@ class Player extends Component {
   }
 
   maybePassBall(event) {
+    game.screenButton.clearOnClick();
     const [targetX, targetY] = convertClientToViewboxPoint(
       event.clientX,
       event.clientY

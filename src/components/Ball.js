@@ -1,7 +1,7 @@
 const BALL_RADIUS_X = 0.6;
 const BALL_RADIUS_Y = 0.8;
 const BALL_COLLECT_RADIUS = (BALL_RADIUS_X + BALL_RADIUS_Y) / 2;
-const HEIGHT_SCALE = 0.1;
+const HEIGHT_SCALE = 0.3;
 const BALL_SPEED = 12;
 const BALL_UP_HEIGHT = 10;
 const BALL_UP_START_HEIGHT = 0;
@@ -13,8 +13,9 @@ const BALL_SPIN_NUMBER_OF_FRAMES = 3;
 class Ball extends Component {
   constructor() {
     super();
+    this.height = BALL_UP_START_HEIGHT;
     this.setSpinRadiuses();
-    this.spinRadiusYIndex = 0;
+    this.spinRadiusIndex = 0;
     this.player = null;
     this.draw();
   }
@@ -68,26 +69,28 @@ class Ball extends Component {
   }
 
   getHeight() {
-    const radiusX = this.getRadiusX();
-    return this.generateHeightFromRadiusX(radiusX);
+    return this.height;
   }
 
   setHeight(height) {
+    if (height < 0) {
+      height = 0;
+    }
     const radiusX = this.generateRadiusXFromHeight(height);
     const radiusY = this.generateRadiusYFromHeight(height);
     this.ball.setAttribute("rx", radiusX).setAttribute("ry", radiusY);
+    this.height = height;
   }
 
   generateRadiusXFromHeight(height) {
-    return BALL_RADIUS_X + height * HEIGHT_SCALE;
+    return BALL_RADIUS_X + BALL_RADIUS_X * height * HEIGHT_SCALE;
   }
 
   generateRadiusYFromHeight(height) {
-    return BALL_RADIUS_Y + height * HEIGHT_SCALE;
-  }
-
-  generateHeightFromRadiusX(radius) {
-    return (radius - BALL_RADIUS_X) / HEIGHT_SCALE;
+    return (
+      this.getCurrentSpinRadius() +
+      this.getCurrentSpinRadius() * height * HEIGHT_SCALE
+    );
   }
 
   getXY() {
@@ -109,8 +112,7 @@ class Ball extends Component {
   }
 
   tapToRandomLocation() {
-    const degrees = 30;
-    // const angle = generateRandomAngle();
+    const degrees = generateRandomAngle();
     const distance = generateRandomNumberBetween(
       BALL_MIN_TAP_RADIUS,
       BALL_MAX_TAP_RADIUS
@@ -133,19 +135,29 @@ class Ball extends Component {
       speed
     );
     const degrees = getDirection(velocityX, velocityY);
+    const distance = getDistanceBetween(x, y, targetX, targetY);
+
     const interval = setInterval(() => {
       x += velocityX;
       y += velocityY;
       this.setXY(x, y);
       this.rotate(degrees);
+
       this.spin();
+      const height = this.getHeight();
+      const distanceFromTarget = getDistanceBetween(x, y, targetX, targetY);
+      const velocityHeight =
+        distanceFromTarget >= distance / 2 ? speed : -speed;
+      this.setHeight(height + velocityHeight);
+
       game.centreAt(x, y);
       if (
         closelyEquals(x, targetX, Math.abs(velocityX)) &&
         closelyEquals(y, targetY, Math.abs(velocityY))
       ) {
         clearInterval(interval);
-        game.ball.resetSpin();
+        this.setHeight(BALL_UP_START_HEIGHT);
+        this.resetSpin();
       }
     }, FRAME_DELAY);
     game.intervals.push(interval);
@@ -157,13 +169,16 @@ class Ball extends Component {
   }
 
   spin() {
-    this.spinRadiusYIndex =
-      (this.spinRadiusYIndex + 1) % this.spinRadiuses.length;
-    this.setRadiusY(this.spinRadiuses[this.spinRadiusYIndex]);
+    this.spinRadiusIndex =
+      (this.spinRadiusIndex + 1) % this.spinRadiuses.length;
   }
 
   resetSpin() {
-    this.spinRadiusYIndex = this.spinRadiuses.length - 1;
+    this.spinRadiusIndex = this.spinRadiuses.length - 1;
     this.spin();
+  }
+
+  getCurrentSpinRadius() {
+    return this.spinRadiuses[this.spinRadiusIndex];
   }
 }
