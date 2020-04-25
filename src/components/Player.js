@@ -125,7 +125,6 @@ class Player extends Component {
   }
 
   maybePassBall(event) {
-    game.screenButton.clearOnClick();
     game.message.clear();
     const [targetX, targetY] = convertClientToViewboxPoint(
       event.clientX,
@@ -136,6 +135,7 @@ class Player extends Component {
 
     const distance = getDistanceBetween(targetX, targetY, playerX, playerY);
     if (distance <= MAX_PASS_DISTANCE) {
+      game.screenButton.clearOnClick();
       this.passBall(targetX, targetY);
     }
   }

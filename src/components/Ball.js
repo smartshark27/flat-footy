@@ -190,18 +190,22 @@ class Ball extends Component {
 
   hasCrossedBoundary() {
     if (this.hasCollidedWithGoalPost()) {
+      game.clearAllIntervals();
       game.message.set("Hit the goal post!");
       resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
       return true;
     } else if (this.hasCollidedWithBehindPost()) {
+      game.clearAllIntervals();
       game.message.set("Hit the behind post!");
       resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
       return true;
     } else if (this.hasCollidedWithGoalZone()) {
+      game.clearAllIntervals();
       game.message.set("GOAL!");
       resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
       return true;
     } else if (this.isOutOfBounds()) {
+      game.clearAllIntervals();
       game.message.set("Out on the full!");
       resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
       return true;
