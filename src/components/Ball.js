@@ -109,14 +109,15 @@ class Ball extends Component {
   }
 
   tapToRandomLocation() {
-    const angle = generateRandomAngle();
+    const degrees = 30;
+    // const angle = generateRandomAngle();
     const distance = generateRandomNumberBetween(
       BALL_MIN_TAP_RADIUS,
       BALL_MAX_TAP_RADIUS
     );
     const [x, y] = this.getXY();
-    const targetX = Math.cos(angle) * distance + x;
-    const targetY = Math.sin(angle) * distance + y;
+    const targetX = Math.cos(toRadians(degrees)) * distance + x;
+    const targetY = Math.sin(toRadians(degrees)) * distance + y;
     this.moveTo(targetX, targetY);
     game.moveClosestPlayersTowardsBall(targetX, targetY);
   }
@@ -131,10 +132,12 @@ class Ball extends Component {
       targetY,
       speed
     );
+    const degrees = getDirection(velocityX, velocityY);
     const interval = setInterval(() => {
       x += velocityX;
       y += velocityY;
       this.setXY(x, y);
+      this.rotate(degrees);
       this.spin();
       game.centreAt(x, y);
       if (
@@ -146,6 +149,11 @@ class Ball extends Component {
       }
     }, FRAME_DELAY);
     game.intervals.push(interval);
+  }
+
+  rotate(degrees) {
+    const [x, y] = this.getXY();
+    this.ball.rotateAbout(degrees, x, y);
   }
 
   spin() {

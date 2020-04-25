@@ -42,3 +42,24 @@ function mirror(array) {
 function cloneArray(array) {
   return array.slice(0);
 }
+
+function toDegrees(radians) {
+  return radians * (180 / Math.PI);
+}
+
+function toRadians(degrees) {
+  return degrees * (Math.PI / 180);
+}
+
+function getDirection(velocityX, velocityY) {
+  // Degrees clockwise from 12 o'clock
+  var degrees = toDegrees(Math.atan(velocityY / velocityX)) + 90;
+  if (isNegative(velocityX)) {
+    degrees += 180;
+  }
+  return degrees;
+}
+
+function isNegative(n) {
+  return n < 0;
+}

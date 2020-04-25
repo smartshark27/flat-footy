@@ -64,6 +64,10 @@ class SVG {
     return this.element === null;
   }
 
+  rotateAbout(degrees, x, y) {
+    this.element.setAttribute("transform", `rotate(${degrees} ${x}, ${y})`);
+  }
+
   _getRectBoundary(rect) {
     return {
       left: Number(rect.getAttribute("x")),
