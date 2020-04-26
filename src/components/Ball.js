@@ -146,8 +146,8 @@ class Ball extends Component {
         closelyEquals(y, targetY, Math.abs(velocityY))
       ) {
         clearInterval(interval);
-        this.setHeight(BALL_UP_START_HEIGHT);
         this.resetSpin();
+        this.setHeight(BALL_UP_START_HEIGHT);
       }
     }, FRAME_DELAY);
     game.intervals.push(interval);
