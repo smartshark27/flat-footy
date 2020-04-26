@@ -215,21 +215,15 @@ class Ball extends Component {
   }
 
   hasCollidedWithGoalPost() {
-    const collisionDistance = POST_RADIUS + BALL_RADIUS_X;
-    const [x, y] = this.getXY();
     if (
-      getDistanceBetween(x, y, LEFT_GOAL_POST_X, TOP_POSTS_Y) <
-        collisionDistance ||
-      getDistanceBetween(x, y, RIGHT_GOAL_POST_X, TOP_POSTS_Y) <
-        collisionDistance
+      this.hasCollidedWithPost(game.field.topLeftGoalPost) ||
+      this.hasCollidedWithPost(game.field.topRightGoalPost)
     ) {
       game.message.set("Hit the goal post!");
       return true;
     } else if (
-      getDistanceBetween(x, y, LEFT_GOAL_POST_X, BOTTOM_POSTS_Y) <
-        collisionDistance ||
-      getDistanceBetween(x, y, RIGHT_GOAL_POST_X, BOTTOM_POSTS_Y) <
-        collisionDistance
+      this.hasCollidedWithPost(game.field.bottomLeftGoalPost) ||
+      this.hasCollidedWithPost(game.field.bottomRightGoalPost)
     ) {
       game.message.set("Hit the goal post!");
       return true;
@@ -238,23 +232,27 @@ class Ball extends Component {
   }
 
   hasCollidedWithBehindPost() {
-    const collisionDistance = POST_RADIUS + BALL_RADIUS_X;
-    const [x, y] = this.getXY();
     if (
-      getDistanceBetween(x, y, LEFT_BEHIND_POST_X, TOP_POSTS_Y) <
-        collisionDistance ||
-      getDistanceBetween(x, y, RIGHT_BEHIND_POST_X, TOP_POSTS_Y) <
-        collisionDistance ||
-      getDistanceBetween(x, y, LEFT_BEHIND_POST_X, BOTTOM_POSTS_Y) <
-        collisionDistance ||
-      getDistanceBetween(x, y, RIGHT_BEHIND_POST_X, BOTTOM_POSTS_Y) <
-        collisionDistance
+      this.hasCollidedWithPost(game.field.topLeftBehindPost) ||
+      this.hasCollidedWithPost(game.field.topRightBehindPost) ||
+      this.hasCollidedWithPost(game.field.bottomLeftBehindPost) ||
+      this.hasCollidedWithPost(game.field.bottomRightBehindPost)
     ) {
       game.message.set("Hit the behind post. On the full!");
       return true;
     } else {
       return false;
     }
+  }
+
+  hasCollidedWithPost(post) {
+    const [x, y] = this.getXY();
+    const postX = Number(post.getAttribute("cx"));
+    const postY = Number(post.getAttribute("cy"));
+    const postRadius = Number(post.getAttribute("r"));
+    const collisionDistance = postRadius + BALL_RADIUS_X;
+    const distanceBetween = getDistanceBetween(x, y, postX, postY);
+    return distanceBetween < collisionDistance;
   }
 
   hasCollidedWithGoalZone() {
@@ -291,11 +289,12 @@ class Ball extends Component {
 
   isOutOfBounds() {
     const [x, y] = this.getXY();
+    const boundary = game.field.boundaryLine.getBoundary();
     if (
-      x <= BOUNDARY_LEFT - BALL_COLLECT_RADIUS ||
-      x >= BOUNDARY_RIGHT + BALL_COLLECT_RADIUS ||
-      y <= BOUNDARY_TOP - BALL_COLLECT_RADIUS ||
-      y >= BOUNDARY_BOTTOM + BALL_COLLECT_RADIUS
+      x <= boundary.left - BALL_COLLECT_RADIUS ||
+      x >= boundary.right + BALL_COLLECT_RADIUS ||
+      y <= boundary.top - BALL_COLLECT_RADIUS ||
+      y >= boundary.bottom + BALL_COLLECT_RADIUS
     ) {
       game.message.set("Out on the full!");
       return true;

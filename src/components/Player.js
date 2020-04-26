@@ -137,6 +137,8 @@ class Player extends Component {
     if (distance <= MAX_PASS_DISTANCE) {
       game.screenButton.clearOnClick();
       this.passBall(targetX, targetY);
+    } else {
+      game.message.set("Can't kick that far");
     }
   }
 
