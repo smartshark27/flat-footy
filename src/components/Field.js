@@ -1,37 +1,3 @@
-const BOUNDARY_WIDTH = 100;
-const BOUNDARY_HEIGHT = 160;
-const CENTRE_SQUARE_WIDTH = 50;
-const CENTRE_SQUARE_HEIGHT = 50;
-const CENTRE_CIRCLE_RADIUS = 5;
-const CENTRE_INNER_CIRCLE_RADIUS = 1.5;
-const FIFTY_LINE_DISTANCE_FROM_GOAL = 45;
-const GOAL_SQUARE_LENGTH = 9;
-const POST_SEPARATION = 6.4;
-const POST_RADIUS = 0.5;
-const LINE_THICKNESS = 0.3;
-
-const BOUNDARY_RIGHT = BOUNDARY_WIDTH / 2;
-const BOUNDARY_LEFT = -BOUNDARY_RIGHT;
-const BOUNDARY_BOTTOM = BOUNDARY_HEIGHT / 2;
-const BOUNDARY_TOP = -BOUNDARY_BOTTOM;
-
-const GRASS_WIDTH = BOUNDARY_WIDTH + 20;
-const GRASS_HEIGHT = BOUNDARY_HEIGHT + 20;
-const BACKGROUND_WIDTH = GRASS_WIDTH * 2;
-const BACKGROUND_HEIGHT = GRASS_HEIGHT * 2;
-
-const RIGHT_GOAL_POST_X = POST_SEPARATION / 2;
-const LEFT_GOAL_POST_X = -RIGHT_GOAL_POST_X;
-const RIGHT_BEHIND_POST_X = POST_SEPARATION * 1.5;
-const LEFT_BEHIND_POST_X = -RIGHT_BEHIND_POST_X;
-const BOTTOM_POSTS_Y = BOUNDARY_BOTTOM;
-const TOP_POSTS_Y = BOUNDARY_TOP;
-
-const SCORE_ZONE_DISTANCE_FROM_GOAL = BALL_RADIUS_X;
-const SCORE_ZONE_WIDTH =
-  POST_SEPARATION - 2 * POST_RADIUS - BALL_COLLECT_RADIUS;
-const SCORE_ZONE_HEIGHT = BALL_COLLECT_RADIUS;
-
 class Field extends Component {
   constructor() {
     super();
@@ -196,62 +162,24 @@ class Field extends Component {
   }
 
   _drawGoalPosts() {
-    this.topLeftGoalPost = SVG.new("circle")
-      .setAttribute("cx", LEFT_GOAL_POST_X)
-      .setAttribute("cy", BOUNDARY_TOP)
-      .setAttribute("r", POST_RADIUS)
-      .setAttribute("fill", COLORS.BLACK);
+    this.topLeftGoalPost = new Post(LEFT_GOAL_POST_X, BOUNDARY_TOP);
     this.addElement(this.topLeftGoalPost);
-
-    this.topRightGoalPost = SVG.new("circle")
-      .setAttribute("cx", RIGHT_GOAL_POST_X)
-      .setAttribute("cy", BOUNDARY_TOP)
-      .setAttribute("r", POST_RADIUS)
-      .setAttribute("fill", COLORS.BLACK);
+    this.topRightGoalPost = new Post(RIGHT_GOAL_POST_X, BOUNDARY_TOP);
     this.addElement(this.topRightGoalPost);
-
-    this.bottomLeftGoalPost = SVG.new("circle")
-      .setAttribute("cx", LEFT_GOAL_POST_X)
-      .setAttribute("cy", BOTTOM_POSTS_Y)
-      .setAttribute("r", POST_RADIUS)
-      .setAttribute("fill", COLORS.BLACK);
+    this.bottomLeftGoalPost = new Post(LEFT_GOAL_POST_X, BOTTOM_POSTS_Y);
     this.addElement(this.bottomLeftGoalPost);
-
-    this.bottomRightGoalPost = SVG.new("circle")
-      .setAttribute("cx", RIGHT_GOAL_POST_X)
-      .setAttribute("cy", BOTTOM_POSTS_Y)
-      .setAttribute("r", POST_RADIUS)
-      .setAttribute("fill", COLORS.BLACK);
+    this.bottomRightGoalPost = new Post(RIGHT_GOAL_POST_X, BOTTOM_POSTS_Y);
     this.addElement(this.bottomRightGoalPost);
   }
 
   _drawBehindPosts() {
-    this.topLeftBehindPost = SVG.new("circle")
-      .setAttribute("cx", LEFT_BEHIND_POST_X)
-      .setAttribute("cy", BOUNDARY_TOP)
-      .setAttribute("r", POST_RADIUS)
-      .setAttribute("fill", COLORS.BLACK);
+    this.topLeftBehindPost = new Post(LEFT_BEHIND_POST_X, BOUNDARY_TOP);
     this.addElement(this.topLeftBehindPost);
-
-    this.topRightBehindPost = SVG.new("circle")
-      .setAttribute("cx", RIGHT_BEHIND_POST_X)
-      .setAttribute("cy", BOUNDARY_TOP)
-      .setAttribute("r", POST_RADIUS)
-      .setAttribute("fill", COLORS.BLACK);
+    this.topRightBehindPost = new Post(RIGHT_BEHIND_POST_X, BOUNDARY_TOP);
     this.addElement(this.topRightBehindPost);
-
-    this.bottomLeftBehindPost = SVG.new("circle")
-      .setAttribute("cx", LEFT_BEHIND_POST_X)
-      .setAttribute("cy", BOTTOM_POSTS_Y)
-      .setAttribute("r", POST_RADIUS)
-      .setAttribute("fill", COLORS.BLACK);
+    this.bottomLeftBehindPost = new Post(LEFT_BEHIND_POST_X, BOTTOM_POSTS_Y);
     this.addElement(this.bottomLeftBehindPost);
-
-    this.bottomRightBehindPost = SVG.new("circle")
-      .setAttribute("cx", RIGHT_BEHIND_POST_X)
-      .setAttribute("cy", BOTTOM_POSTS_Y)
-      .setAttribute("r", POST_RADIUS)
-      .setAttribute("fill", COLORS.BLACK);
+    this.bottomRightBehindPost = new Post(RIGHT_BEHIND_POST_X, BOTTOM_POSTS_Y);
     this.addElement(this.bottomRightBehindPost);
   }
 

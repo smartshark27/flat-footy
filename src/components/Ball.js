@@ -1,17 +1,3 @@
-const BALL_RADIUS_X = 0.6;
-const BALL_RADIUS_Y = 0.8;
-const BALL_COLLECT_RADIUS = (BALL_RADIUS_X + BALL_RADIUS_Y) / 2;
-const HEIGHT_SCALE = 0.3;
-const BALL_SPEED = 12;
-const BALL_UP_HEIGHT = 10;
-const BALL_UP_START_HEIGHT = 0;
-const BALL_MIN_TAP_RADIUS = 4;
-const BALL_MAX_TAP_RADIUS = 12;
-const BALL_SPIN_MIN_RADIUS_Y = 0.5;
-const BALL_SPIN_NUMBER_OF_FRAMES = 3;
-const BOUNDARY_CROSSED_RESET_DELAY = 2000;
-const OUT_OF_BOUNDS_ON_THE_FULL_MESSAGE = "Out on the full!";
-
 class Ball extends Component {
   constructor() {
     super();
@@ -96,9 +82,7 @@ class Ball extends Component {
   }
 
   getXY() {
-    const x = Number(this.ball.getAttribute("cx"));
-    const y = Number(this.ball.getAttribute("cy"));
-    return [x, y];
+    return this.ball.getXY();
   }
 
   setXY(x, y) {
@@ -247,10 +231,8 @@ class Ball extends Component {
 
   hasCollidedWithPost(post) {
     const [x, y] = this.getXY();
-    const postX = Number(post.getAttribute("cx"));
-    const postY = Number(post.getAttribute("cy"));
-    const postRadius = Number(post.getAttribute("r"));
-    const collisionDistance = postRadius + BALL_RADIUS_X;
+    const [postX, postY] = post.getXY();
+    const collisionDistance = post.getRadius() + BALL_RADIUS_X;
     const distanceBetween = getDistanceBetween(x, y, postX, postY);
     return distanceBetween < collisionDistance;
   }

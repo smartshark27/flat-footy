@@ -45,7 +45,7 @@ class SVG {
     } else if (this.getType() === "circle") {
       return this._getCircleBoundary(this.element);
     } else {
-      console.log("Could not get boundary of element", this.element);
+      throw "Could not get boundary of element" + this.element.toString();
     }
   }
 
@@ -68,6 +68,22 @@ class SVG {
     this.element.setAttribute("transform", `rotate(${degrees} ${x}, ${y})`);
   }
 
+  getXY() {
+    var x, y;
+    if (this._isCircular()) {
+      x = this.element.getAttribute("cx");
+      y = this.element.getAttribute("cy");
+    } else {
+      x = this.element.getAttribute("x");
+      y = this.element.getAttribute("y");
+    }
+    return [Number(x), Number(y)];
+  }
+
+  _isCircular() {
+    return ["circle", "ellipse"].includes(this.getType());
+  }
+
   _getRectBoundary(rect) {
     return {
       left: Number(rect.getAttribute("x")),
@@ -75,7 +91,7 @@ class SVG {
         Number(rect.getAttribute("x")) + Number(rect.getAttribute("width")),
       top: Number(rect.getAttribute("y")),
       bottom:
-        Number(rect.getAttribute("y")) + Number(rect.getAttribute("height"))
+        Number(rect.getAttribute("y")) + Number(rect.getAttribute("height")),
     };
   }
 
@@ -88,7 +104,7 @@ class SVG {
       left: x - radius,
       right: x + radius,
       top: y - radius,
-      bottom: y + radius
+      bottom: y + radius,
     };
   }
 }

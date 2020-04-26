@@ -1,12 +1,3 @@
-const PLAYER_RADIUS = 1;
-const PLAYER_SPEED = 5;
-const COLLECT_RADIUS = PLAYER_RADIUS + BALL_COLLECT_RADIUS;
-const COLLECT_HEIGHT = 2;
-const MAX_PASS_DISTANCE = 55;
-const PLAYER_FREEZE_TIME = 200;
-const PLAYER_COLLISION_RADIUS = PLAYER_RADIUS;
-const PLAYER_WAIT_DISTANCE_FROM_TARGET = BALL_COLLECT_RADIUS / 2;
-
 class Player extends Component {
   constructor(position, team) {
     super();
@@ -35,9 +26,7 @@ class Player extends Component {
   }
 
   getXY() {
-    const x = Number(this.circle.getAttribute("cx"));
-    const y = Number(this.circle.getAttribute("cy"));
-    return [x, y];
+    return this.circle.getXY();
   }
 
   setXY(x, y) {
