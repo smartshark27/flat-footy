@@ -27,9 +27,9 @@ const LEFT_BEHIND_POST_X = -RIGHT_BEHIND_POST_X;
 const BOTTOM_POSTS_Y = BOUNDARY_BOTTOM;
 const TOP_POSTS_Y = BOUNDARY_TOP;
 
-const GOAL_ZONE_DISTANCE_FROM_GOAL = BALL_RADIUS_X;
-const GOAL_ZONE_WIDTH = POST_SEPARATION - 2 * POST_RADIUS - BALL_COLLECT_RADIUS;
-const GOAL_ZONE_HEIGHT = BALL_COLLECT_RADIUS;
+const SCORE_ZONE_DISTANCE_FROM_GOAL = BALL_RADIUS_X;
+const SCORE_ZONE_WIDTH = POST_SEPARATION - 2 * POST_RADIUS - BALL_COLLECT_RADIUS;
+const SCORE_ZONE_HEIGHT = BALL_COLLECT_RADIUS;
 
 class Field extends Component {
   constructor() {
@@ -46,7 +46,8 @@ class Field extends Component {
     this._drawFiftyLines();
     this._drawGoalSquares();
     this._drawGoalPosts();
-    this._drawGoalZone();
+    this._drawGoalZones();
+    this._drawBehindZones();
   }
 
   _drawBackground() {
@@ -260,20 +261,55 @@ class Field extends Component {
       );
   }
 
-  _drawGoalZone() {
+  _drawGoalZones() {
     this.topGoalZone = SVG.new("rect")
       .hide()
-      .setAttribute("x", -(GOAL_ZONE_WIDTH / 2))
-      .setAttribute("y", BOUNDARY_TOP - GOAL_ZONE_DISTANCE_FROM_GOAL - GOAL_ZONE_HEIGHT)
-      .setAttribute("width", GOAL_ZONE_WIDTH)
-      .setAttribute("height", GOAL_ZONE_HEIGHT)
+      .setAttribute("x", -(SCORE_ZONE_WIDTH / 2))
+      .setAttribute("y", BOUNDARY_TOP - SCORE_ZONE_DISTANCE_FROM_GOAL - SCORE_ZONE_HEIGHT)
+      .setAttribute("width", SCORE_ZONE_WIDTH)
+      .setAttribute("height", SCORE_ZONE_HEIGHT)
     this.addElement(this.topGoalZone);
+
     this.bottomGoalZone = SVG.new("rect")
       .hide()
-      .setAttribute("x", -(GOAL_ZONE_WIDTH / 2))
-      .setAttribute("y", BOUNDARY_BOTTOM + GOAL_ZONE_DISTANCE_FROM_GOAL)
-      .setAttribute("width", GOAL_ZONE_WIDTH)
-      .setAttribute("height", GOAL_ZONE_HEIGHT)
+      .setAttribute("x", -(SCORE_ZONE_WIDTH / 2))
+      .setAttribute("y", BOUNDARY_BOTTOM + SCORE_ZONE_DISTANCE_FROM_GOAL)
+      .setAttribute("width", SCORE_ZONE_WIDTH)
+      .setAttribute("height", SCORE_ZONE_HEIGHT)
     this.addElement(this.bottomGoalZone);
+  }
+
+  _drawBehindZones() {
+    this.topLeftBehindZone = SVG.new("rect")
+      .hide()
+      .setAttribute("x", -(POST_SEPARATION * 1.5) + POST_RADIUS + BALL_COLLECT_RADIUS / 2)
+      .setAttribute("y", BOUNDARY_TOP - SCORE_ZONE_DISTANCE_FROM_GOAL - SCORE_ZONE_HEIGHT)
+      .setAttribute("width", SCORE_ZONE_WIDTH)
+      .setAttribute("height", SCORE_ZONE_HEIGHT)
+    this.addElement(this.topLeftBehindZone);
+
+    this.topRightBehindZone = SVG.new("rect")
+      .hide()
+      .setAttribute("x", POST_SEPARATION / 2 + POST_RADIUS + BALL_COLLECT_RADIUS / 2)
+      .setAttribute("y", BOUNDARY_TOP - SCORE_ZONE_DISTANCE_FROM_GOAL - SCORE_ZONE_HEIGHT)
+      .setAttribute("width", SCORE_ZONE_WIDTH)
+      .setAttribute("height", SCORE_ZONE_HEIGHT)
+    this.addElement(this.topRightBehindZone);
+
+    this.bottomLeftBehindZone = SVG.new("rect")
+      .hide()
+      .setAttribute("x", -(POST_SEPARATION * 1.5) + POST_RADIUS + BALL_COLLECT_RADIUS / 2)
+      .setAttribute("y", BOUNDARY_BOTTOM + SCORE_ZONE_DISTANCE_FROM_GOAL)
+      .setAttribute("width", SCORE_ZONE_WIDTH)
+      .setAttribute("height", SCORE_ZONE_HEIGHT)
+    this.addElement(this.bottomLeftBehindZone);
+
+    this.bottomRightBehindZone = SVG.new("rect")
+      .hide()
+      .setAttribute("x", POST_SEPARATION / 2 + POST_RADIUS + BALL_COLLECT_RADIUS / 2)
+      .setAttribute("y", BOUNDARY_BOTTOM + SCORE_ZONE_DISTANCE_FROM_GOAL)
+      .setAttribute("width", SCORE_ZONE_WIDTH)
+      .setAttribute("height", SCORE_ZONE_HEIGHT)
+    this.addElement(this.bottomRightBehindZone);
   }
 }

@@ -63,3 +63,13 @@ function getDirection(velocityX, velocityY) {
 function isNegative(n) {
   return n < 0;
 }
+
+function isPointInRect(x, y, rect) {
+  const rectBoundary = rect.getBoundary();
+  return (
+    x >= rectBoundary.left &&
+    x <= rectBoundary.right &&
+    y >= rectBoundary.top &&
+    y <= rectBoundary.bottom
+  );
+}
