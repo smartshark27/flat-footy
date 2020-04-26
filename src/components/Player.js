@@ -45,10 +45,10 @@ class Player extends Component {
         targetY,
         speed
       );
-      if (!this.willCollideWithAnotherPlayer(x + velocityX, y)) {
+      if (this.canMoveTo(x + velocityX, y, velocityX, 0)) {
         x += velocityX;
       }
-      if (!this.willCollideWithAnotherPlayer(x, y + velocityY)) {
+      if (this.canMoveTo(x, y + velocityY, 0, velocityY)) {
         y += velocityY;
       }
       this.setXY(x, y);
@@ -57,11 +57,44 @@ class Player extends Component {
         waiting = true;
         this.waitForBall(tapBall);
       }
-      if (distanceFromTarget < PLAYER_WAIT_DISTANCE_FROM_TARGET) {
-        clearInterval(interval);
-      }
     }, FRAME_DELAY);
     game.intervals.push(interval);
+  }
+
+  canMoveTo(x, y, displacementX, displacementY) {
+    // Checks collision with other players and maybe pushes them
+    const canMove = game.getAllPlayers().reduce((canMove, player) => {
+      if (player == this) {
+        return canMove;
+      }
+      const [playerX, playerY] = player.getXY();
+      const collided =
+        getDistanceBetween(x, y, playerX, playerY) <
+        PLAYER_COLLISION_RADIUS * 2;
+      if (!collided) {
+        return canMove && true;
+      } else {
+        return canMove && player.maybePush(displacementX, displacementY);
+      }
+    }, true);
+    return canMove;
+  }
+
+  maybePush(displacementX, displacementY) {
+    const [x, y] = this.getXY();
+    const newX = x + displacementX * PUSH_MULTIPLIER;
+    const newY = y + displacementY * PUSH_MULTIPLIER;
+    const standGround = this.willStandGround();
+    if (standGround || this.willCollideWithAnotherPlayer(newX, newY)) {
+      return false;
+    } else {
+      this.setXY(newX, newY);
+      return true;
+    }
+  }
+
+  willStandGround() {
+    return Math.random() > PUSH_CHANCE;
   }
 
   willCollideWithAnotherPlayer(x, y) {

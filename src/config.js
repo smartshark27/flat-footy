@@ -45,6 +45,8 @@ const MAX_PASS_DISTANCE = 55;
 const PLAYER_FREEZE_TIME = 200;
 const PLAYER_COLLISION_RADIUS = PLAYER_RADIUS;
 const PLAYER_WAIT_DISTANCE_FROM_TARGET = BALL_COLLECT_RADIUS / 2;
+const PUSH_MULTIPLIER = 15;
+const PUSH_CHANCE = 0.1;
 
 //-----------------------------------------------------------------------------
 // Derived

@@ -73,3 +73,12 @@ function isPointInRect(x, y, rect) {
     y <= rectBoundary.bottom
   );
 }
+
+function hap() {
+  // Used for debugging. Yeah I'm good
+  console.log("Happened");
+}
+
+function log(...things) {
+  console.log(...things);
+}
