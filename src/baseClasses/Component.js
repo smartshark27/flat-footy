@@ -12,5 +12,6 @@ class Component {
 
   remove() {
     this.elements.forEach((element) => element.remove());
+    clearArray(this.elements);
   }
 }

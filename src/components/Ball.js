@@ -20,6 +20,13 @@ class Ball extends Component {
     this.addElement(this.ball);
   }
 
+  reset() {
+    this.ball.setAttribute("transform", "");
+    this.setXY(0, 0);
+    this.resetSpin();
+    this.setHeight(BALL_UP_START_HEIGHT);
+  }
+
   setSpinRadiuses() {
     const firstHalf = [];
     const shrinkPerFrame =
@@ -204,12 +211,14 @@ class Ball extends Component {
       this.hasCollidedWithPost(game.field.topRightGoalPost)
     ) {
       game.message.set("Hit the goal post!");
+      game.scoreboard.giveBehindToTopTeam();
       return true;
     } else if (
       this.hasCollidedWithPost(game.field.bottomLeftGoalPost) ||
       this.hasCollidedWithPost(game.field.bottomRightGoalPost)
     ) {
       game.message.set("Hit the goal post!");
+      game.scoreboard.giveBehindToBottomTeam();
       return true;
     }
     return false;
@@ -241,9 +250,11 @@ class Ball extends Component {
     const [x, y] = this.getXY();
     if (isPointInRect(x, y, game.field.topGoalZone)) {
       game.message.set("GOAL!");
+      game.scoreboard.giveGoalToTopTeam();
       return true;
     } else if (isPointInRect(x, y, game.field.bottomGoalZone)) {
       game.message.set("GOAL!");
+      game.scoreboard.giveGoalToBottomTeam();
       return true;
     } else {
       return false;
@@ -256,6 +267,7 @@ class Ball extends Component {
       isPointInRect(x, y, game.field.topLeftBehindZone) ||
       isPointInRect(x, y, game.field.topRightBehindZone)
     ) {
+      game.scoreboard.giveBehindToTopTeam();
       game.message.set("Behind");
       return true;
     } else if (
@@ -263,6 +275,7 @@ class Ball extends Component {
       isPointInRect(x, y, game.field.bottomRightBehindZone)
     ) {
       game.message.set("Behind");
+      game.scoreboard.giveBehindToBottomTeam();
       return true;
     } else {
       return false;

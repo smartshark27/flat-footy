@@ -1,8 +1,3 @@
-const TEXT_SIZE = 3;
-const START_MESSAGE = "Touch to start";
-const TEMP_MESSAGE_LIFETIME = 3000; // Milliseconds
-const MESSAGE_DISTANCE_ABOVE_CENTRE = 25;
-
 class Message extends Component {
   constructor() {
     super();
@@ -16,7 +11,7 @@ class Message extends Component {
       .setAttribute("text-anchor", "middle")
       .setAttribute("y", -MESSAGE_DISTANCE_ABOVE_CENTRE)
       .setAttribute("style", FONTS.LUCIDA_CONSOLE)
-      .setAttribute("font-size", TEXT_SIZE)
+      .setAttribute("font-size", MESSAGE_TEXT_SIZE)
       .setTextContent(START_MESSAGE);
     this.addElement(this.message);
   }

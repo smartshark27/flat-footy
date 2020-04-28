@@ -25,6 +25,10 @@ class Player extends Component {
     this.addElement(this.circle);
   }
 
+  teleportToStartPosition() {
+    this.setXY(this.startX, this.startY);
+  }
+
   getXY() {
     return this.circle.getXY();
   }

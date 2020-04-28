@@ -3,6 +3,7 @@ class Team extends Component {
     super();
 
     this.name = name;
+    this.color = name;
     this.goalDirection = goalDirection; // Up or down
 
     this.draw();
@@ -12,6 +13,10 @@ class Team extends Component {
     for (var position in DEFAULT_PLAYER_POSITIONS) {
       this.addElement(new Player(position, this.name));
     }
+  }
+
+  teleportPlayersToStartPositions() {
+    this.elements.forEach((player) => player.teleportToStartPosition());
   }
 
   moveClosestPlayerTowardsBall(ballX, ballY, tapBall = false) {
@@ -43,7 +48,9 @@ class Team extends Component {
   }
 
   getPlayer(position) {
-    const players = this.elements.filter(player => player.position == position);
+    const players = this.elements.filter(
+      (player) => player.position == position
+    );
     if (players[0]) {
       return players[0];
     } else {

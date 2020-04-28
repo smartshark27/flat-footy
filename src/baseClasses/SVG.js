@@ -26,6 +26,10 @@ class SVG {
     return this;
   }
 
+  getTextContent() {
+    return this.element.textContent;
+  }
+
   setTextContent(text) {
     this.element.textContent = text;
     return this;

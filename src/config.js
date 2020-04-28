@@ -2,6 +2,10 @@
 const FPS = 60;
 const VIEWBOX_WIDTH = 100;
 const VIEWBOX_HEIGHT = 100;
+const TOP_TEAM_NAME = "Blue";
+const BOTTOM_TEAM_NAME = "Red";
+const GOAL_POINTS = 6;
+const BEHIND_POINTS = 1;
 
 // Field
 const BOUNDARY_WIDTH = 100;
@@ -48,15 +52,39 @@ const PLAYER_WAIT_DISTANCE_FROM_TARGET = BALL_COLLECT_RADIUS / 2;
 const PUSH_MULTIPLIER = 15;
 const PUSH_CHANCE = 0.1;
 
+// Message
+const MESSAGE_TEXT_SIZE = 3;
+const START_MESSAGE = "Touch to start";
+const TEMP_MESSAGE_LIFETIME = 3000;
+const MESSAGE_DISTANCE_ABOVE_CENTRE = 25;
+
+// Scoreboard
+const SCOREBOARD_DISTANCE_FROM_LEFT = 3;
+const SCOREBOARD_DISTANCE_FROM_BOTTOM = 3;
+const SCOREBOARD_TEXT_SIZE = 3;
+const SCOREBOARD_MARGIN = 5;
+const SCOREBOARD_PADDING = 1;
+const SCOREBOARD_WIDTH = 17;
+const SCOREBOARD_OPACITY = 0.7;
+const SCOREBOARD_COLOR_WIDTH = 2;
+
 //-----------------------------------------------------------------------------
 // Derived
 //-----------------------------------------------------------------------------
 
 // General
 const FRAME_DELAY = Math.floor(1000 / FPS);
+const VIEWBOX_LEFT = -(VIEWBOX_WIDTH / 2);
+const VIEWBOX_RIGHT = VIEWBOX_WIDTH / 2;
+const VIEWBOX_TOP = -(VIEWBOX_HEIGHT / 2);
+const VIEWBOX_BOTTOM = VIEWBOX_HEIGHT / 2;
 
 // Field
 const BOUNDARY_RIGHT = BOUNDARY_WIDTH / 2;
 const BOUNDARY_LEFT = -BOUNDARY_RIGHT;
 const BOUNDARY_BOTTOM = BOUNDARY_HEIGHT / 2;
 const BOUNDARY_TOP = -BOUNDARY_BOTTOM;
+
+// Scoreboard
+const SCOREBOARD_LINE_HEIGHT = 2 * SCOREBOARD_PADDING + SCOREBOARD_TEXT_SIZE;
+const SCOREBOARD_HEIGHT = 2 * SCOREBOARD_LINE_HEIGHT;

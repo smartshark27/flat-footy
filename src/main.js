@@ -2,7 +2,7 @@ var game;
 
 function handleLoad() {
   setViewbox(-(VIEWBOX_WIDTH / 2), -(VIEWBOX_HEIGHT / 2));
-  game = new Game();
+  game = new Game(TOP_TEAM_NAME, BOTTOM_TEAM_NAME);
 }
 
 function setViewbox(x, y, width = VIEWBOX_WIDTH, height = VIEWBOX_HEIGHT) {
@@ -26,12 +26,5 @@ function convertClientToViewboxPoint(x, y) {
 }
 
 function resetGameAfter(milliseconds) {
-  sleep(milliseconds).then(() => resetGame());
-}
-
-function resetGame() {
-  game.clearAllIntervals();
-  game.remove();
-  centreViewboxAt(0, 0);
-  game = new Game();
+  sleep(milliseconds).then(() => game.reset());
 }

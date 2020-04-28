@@ -5,7 +5,9 @@ const COLORS = {
   LIGHT_GREY: "LightGrey",
   GREEN: "Green",
   LIGHT_GREEN: "#1dad25",
-  YELLOW: "Yellow"
+  YELLOW: "Yellow",
+  BLUE: "Blue",
+  RED: "Red"
 };
 
 const FONTS = {
