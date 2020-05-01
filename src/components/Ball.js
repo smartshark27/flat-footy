@@ -249,12 +249,22 @@ class Ball extends Component {
   hasCollidedWithGoalZone() {
     const [x, y] = this.getXY();
     if (isPointInRect(x, y, game.field.topGoalZone)) {
-      game.message.set("GOAL!");
-      game.scoreboard.giveGoalToTopTeam();
+      if (this.player.team === "Blue") {
+        game.message.set("GOAL!");
+        game.scoreboard.giveGoalToTopTeam();
+      } else {
+        game.message.set("Behind");
+        game.scoreboard.giveBehindToTopTeam();
+      }
       return true;
     } else if (isPointInRect(x, y, game.field.bottomGoalZone)) {
-      game.message.set("GOAL!");
-      game.scoreboard.giveGoalToBottomTeam();
+      if (this.player.team === "Red") {
+        game.message.set("GOAL!");
+        game.scoreboard.giveGoalToBottomTeam();
+      } else {
+        game.message.set("Behind");
+        game.scoreboard.giveBehindToBottomTeam();
+      }
       return true;
     } else {
       return false;

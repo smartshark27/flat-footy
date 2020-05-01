@@ -170,7 +170,7 @@ class Player extends Component {
 
   passBall(targetX, targetY) {
     this.freeze();
-    game.ball.player = null;
+    // game.ball.player = null;
     game.ball.moveTo(targetX, targetY);
     game.moveClosestPlayersTowardsBall(targetX, targetY);
   }
