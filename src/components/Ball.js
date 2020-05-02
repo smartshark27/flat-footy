@@ -180,119 +180,101 @@ class Ball extends Component {
   }
 
   hasCrossedBoundary() {
-    if (this.hasCollidedWithGoalPost()) {
-      game.clearAllIntervals();
-      resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
-      return true;
-    } else if (this.hasCollidedWithBehindPost()) {
-      game.clearAllIntervals();
-      resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
-      return true;
-    } else if (this.hasCollidedWithGoalZone()) {
-      game.clearAllIntervals();
-      resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
-      return true;
-    } else if (this.hasCollidedWithBehindZone()) {
-      game.clearAllIntervals();
-      resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
-      return true;
-    } else if (this.isOutOfBounds()) {
-      game.clearAllIntervals();
-      resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  hasCollidedWithGoalPost() {
     if (
-      this.hasCollidedWithPost(game.field.topLeftGoalPost) ||
-      this.hasCollidedWithPost(game.field.topRightGoalPost)
+      this._checkScoreZone(game.team1ScoreZone) ||
+      this._checkScoreZone(game.team2ScoreZone) ||
+      this._isOutOfBounds()
     ) {
-      game.message.set(this.player.lastName + " has hit the post!");
-      game.scoreboard.giveBehindToTopTeam();
-      return true;
-    } else if (
-      this.hasCollidedWithPost(game.field.bottomLeftGoalPost) ||
-      this.hasCollidedWithPost(game.field.bottomRightGoalPost)
-    ) {
-      game.message.set(this.player.lastName + " has hit the post!");
-      game.scoreboard.giveBehindToBottomTeam();
+      game.clearAllIntervals();
+      resetGameAfter(BOUNDARY_CROSSED_RESET_DELAY);
       return true;
     }
     return false;
   }
 
-  hasCollidedWithBehindPost() {
-    if (
-      this.hasCollidedWithPost(game.field.topLeftBehindPost) ||
-      this.hasCollidedWithPost(game.field.topRightBehindPost) ||
-      this.hasCollidedWithPost(game.field.bottomLeftBehindPost) ||
-      this.hasCollidedWithPost(game.field.bottomRightBehindPost)
-    ) {
-      game.message.set(this.player.lastName + " has hit the post. On the full!");
-      return true;
-    } else {
-      return false;
-    }
+  _checkScoreZone(scoreZone) {
+    return (
+      this._hasCollidedWithGoalPost(scoreZone) ||
+      this._hasCollidedWithBehindPost(scoreZone) ||
+      this._isInGoalZone(scoreZone) ||
+      this._isInBehindZone(scoreZone)
+    );
   }
 
-  hasCollidedWithPost(post) {
+  _hasCollidedWithGoalPost(scoreZone) {
+    for (var post of scoreZone.getGoalPosts()) {
+      if (this._hasCollidedWithPost(post)) {
+        if (this.player.team.number === scoreZone.team.number) {
+          game.message.set(this.player.lastName + " has hit the post!");
+        } else {
+          game.message.set(this.player.lastName + " has rushed a behind onto the post");
+        }
+        scoreZone.giveBehind();
+        return true;
+      }
+    }
+    return false;
+  }
+
+  _hasCollidedWithBehindPost(scoreZone) {
+    for (var post of scoreZone.getBehindPosts()) {
+      if (this._hasCollidedWithPost(post)) {
+        game.message.set(
+          this.player.lastName + " has hit the post. On the full!"
+        );
+        return true;
+      }
+    }
+    return false;
+  }
+
+  _hasCollidedWithPost(post) {
     const [x, y] = this.getXY();
     const [postX, postY] = post.getXY();
-    const collisionDistance = post.getRadius() + BALL_RADIUS_X;
+    const collisionDistance = Number(post.getAttribute("r")) + BALL_RADIUS_X;
     const distanceBetween = getDistanceBetween(x, y, postX, postY);
     return distanceBetween < collisionDistance;
   }
 
-  hasCollidedWithGoalZone() {
-    const [x, y] = this.getXY();
-    if (isPointInRect(x, y, game.field.topGoalZone)) {
-      if (this.player.team.number === 1) {
+  _isInGoalZone(scoreZone) {
+    if (this._isInZone(scoreZone.goalZone)) {
+      if (this.player.team.number === scoreZone.team.number) {
         game.message.set(this.player.lastName + " has scored a GOAL!");
-        game.scoreboard.giveGoalToTopTeam();
+        scoreZone.giveGoal();
       } else {
-        game.message.set(this.player.lastName + " has scored a behind");
-        game.scoreboard.giveBehindToTopTeam();
+        game.message.set(this.player.lastName + " has rushed a behind");
+        scoreZone.giveBehind();
       }
       return true;
-    } else if (isPointInRect(x, y, game.field.bottomGoalZone)) {
-      if (this.player.team.number === 1) {
-        game.message.set(this.player.lastName + " has scored a GOAL!");
-        game.scoreboard.giveGoalToBottomTeam();
-      } else {
-        game.message.set(this.player.lastName + " has scored a behind");
-        game.scoreboard.giveBehindToBottomTeam();
-      }
-      return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
-  hasCollidedWithBehindZone() {
-    const [x, y] = this.getXY();
+  _isInBehindZone(scoreZone) {
     if (
-      isPointInRect(x, y, game.field.topLeftBehindZone) ||
-      isPointInRect(x, y, game.field.topRightBehindZone)
+      this._isInZone(scoreZone.leftBehindZone) ||
+      this._isInZone(scoreZone.rightBehindZone)
     ) {
-      game.scoreboard.giveBehindToTopTeam();
-      game.message.set(this.player.lastName + " has scored a behind");
+      if (this.player.team.number === scoreZone.team.number) {
+        game.message.set(this.player.lastName + " has scored a behind");
+      } else {
+        game.message.set(this.player.lastName + " has rushed a behind");
+      }
+      scoreZone.giveBehind();
       return true;
-    } else if (
-      isPointInRect(x, y, game.field.bottomLeftBehindZone) ||
-      isPointInRect(x, y, game.field.bottomRightBehindZone)
-    ) {
-      game.message.set(this.player.lastName + " has scored a behind");
-      game.scoreboard.giveBehindToBottomTeam();
-      return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
-  isOutOfBounds() {
+  _isInZone(zone) {
+    const [x, y] = this.getXY();
+    if (isPointInRect(x, y, zone)) {
+      return true;
+    }
+    return false;
+  }
+
+  _isOutOfBounds() {
     const [x, y] = this.getXY();
     const boundary = game.field.boundaryLine.getBoundary();
     if (

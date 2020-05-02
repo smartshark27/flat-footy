@@ -30,7 +30,7 @@ function getBombersTeamAttributes() {
       },
       RHB: {
         firstName: "Mason",
-        lastName: "Bluewoman",
+        lastName: "Blueman",
       },
       LW: {
         firstName: "Kyle",

@@ -11,16 +11,26 @@ class Game extends Component {
   draw() {
     this.field = new Field();
     this.addElement(this.field);
+
     this.team1 = new Team(this.team1Attributes, 1);
     this.addElement(this.team1);
     this.team2 = new Team(this.team2Attributes, 2);
     this.addElement(this.team2);
+
+    this.team1ScoreZone = new ScoreZone(this.team1);
+    this.addElement(this.team1ScoreZone);
+    this.team2ScoreZone = new ScoreZone(this.team2);
+    this.addElement(this.team2ScoreZone);
+
     this.ball = new Ball();
     this.addElement(this.ball);
+
     this.scoreboard = new Scoreboard(this.team1, this.team2);
     this.addElement(this.scoreboard);
+
     this.message = new Message();
     this.addElement(this.message);
+
     this.screenButton = new ScreenButton("game.start()");
     this.addElement(this.screenButton);
   }

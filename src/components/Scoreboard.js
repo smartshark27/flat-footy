@@ -1,20 +1,20 @@
 class Scoreboard extends Component {
-  constructor(topTeam, bottomTeam) {
+  constructor(team1, team2) {
     super();
 
-    this.topTeam = topTeam;
-    this.bottomTeam = bottomTeam;
+    this.team1 = team1;
+    this.team2 = team2;
 
     this.draw();
   }
 
   draw() {
-    const topTopY = VIEWBOX_HEIGHT / 2 - SCOREBOARD_HEIGHT - SCOREBOARD_MARGIN;
-    const bottomTopY = topTopY + SCOREBOARD_LINE_HEIGHT;
-    this._drawLine(this.topTeam, topTopY);
-    this._drawLine(this.bottomTeam, bottomTopY);
-    this._drawTopScore(topTopY);
-    this._drawBottomScore(bottomTopY);
+    const team1TopY = VIEWBOX_HEIGHT / 2 - SCOREBOARD_HEIGHT - SCOREBOARD_MARGIN;
+    const team2TopY = team1TopY + SCOREBOARD_LINE_HEIGHT;
+    this._drawLine(this.team1, team1TopY);
+    this._drawLine(this.team2, team2TopY);
+    this._drawTeam1Score(team1TopY);
+    this._drawTeam2Score(team2TopY);
   }
 
   moveTo(x, y) {
@@ -23,39 +23,39 @@ class Scoreboard extends Component {
     })
   }
 
-  giveGoalToTopTeam() {
-    const score = Number(this.topScore.getTextContent());
-    this.topScore.setTextContent(score + GOAL_POINTS);
+  giveGoalToTeam1() {
+    const score = Number(this.team1Score.getTextContent());
+    this.team1Score.setTextContent(score + GOAL_POINTS);
   }
 
-  giveGoalToBottomTeam() {
-    const score = Number(this.bottomScore.getTextContent());
-    this.bottomScore.setTextContent(score + GOAL_POINTS);
+  giveGoalToTeam2() {
+    const score = Number(this.team2Score.getTextContent());
+    this.team2Score.setTextContent(score + GOAL_POINTS);
   }
 
-  giveBehindToTopTeam() {
-    const score = Number(this.topScore.getTextContent());
-    this.topScore.setTextContent(score + BEHIND_POINTS);
+  giveBehindToTeam1() {
+    const score = Number(this.team1Score.getTextContent());
+    this.team1Score.setTextContent(score + BEHIND_POINTS);
   }
 
-  giveBehindToBottomTeam() {
-    const score = Number(this.bottomScore.getTextContent());
-    this.bottomScore.setTextContent(score + BEHIND_POINTS);
+  giveBehindToTeam2() {
+    const score = Number(this.team2Score.getTextContent());
+    this.team2Score.setTextContent(score + BEHIND_POINTS);
   }
 
   _drawLine(team, topY) {
-    this._drawBackground(team.colors.mid, topY);
-    this._drawTeamName(team.name, topY);
+    this._drawBackground(team, topY);
+    this._drawTeamName(team, topY);
   }
 
-  _drawBackground(color, topY) {
+  _drawBackground(team, topY) {
     this.addElement(
       SVG.new("rect")
         .setAttribute("x", VIEWBOX_LEFT + SCOREBOARD_MARGIN)
         .setAttribute("y", topY)
         .setAttribute("width", SCOREBOARD_COLOR_WIDTH)
         .setAttribute("height", SCOREBOARD_PADDING * 2 + SCOREBOARD_TEXT_SIZE)
-        .setAttribute("fill", color)
+        .setAttribute("fill", team.colors.mid)
         .setAttribute("fill-opacity", SCOREBOARD_OPACITY)
     );
 
@@ -73,7 +73,7 @@ class Scoreboard extends Component {
     );
   }
 
-  _drawTeamName(name, topY) {
+  _drawTeamName(team, topY) {
     this.addElement(
       SVG.new("text")
         .setAttribute("dominant-baseline", "hanging")
@@ -88,18 +88,18 @@ class Scoreboard extends Component {
         .setAttribute("style", FONTS.LUCIDA_CONSOLE)
         .setAttribute("font-size", SCOREBOARD_TEXT_SIZE)
         .setAttribute("fill", COLORS.WHITE)
-        .setTextContent(name)
+        .setTextContent(team.nickname)
     );
   }
 
-  _drawTopScore(topY) {
-    this.topScore = this._drawScore(topY);
-    this.addElement(this.topScore);
+  _drawTeam1Score(topY) {
+    this.team1Score = this._drawScore(topY);
+    this.addElement(this.team1Score);
   }
 
-  _drawBottomScore(topY) {
-    this.bottomScore = this._drawScore(topY);
-    this.addElement(this.bottomScore);
+  _drawTeam2Score(topY) {
+    this.team2Score = this._drawScore(topY);
+    this.addElement(this.team2Score);
   }
 
   _drawScore(topY) {
