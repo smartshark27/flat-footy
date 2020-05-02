@@ -44,7 +44,7 @@ class Scoreboard extends Component {
   }
 
   _drawLine(team, topY) {
-    this._drawBackground(team.color, topY);
+    this._drawBackground(team.colors.mid, topY);
     this._drawTeamName(team.name, topY);
   }
 

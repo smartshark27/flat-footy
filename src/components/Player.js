@@ -1,15 +1,18 @@
 class Player extends Component {
-  constructor(position, team) {
+  constructor(team, position, attributes) {
     super();
 
-    this.position = position;
     this.team = team;
-    this.color = team;
-    this.frozen = false;
+    this.position = position;
+    this.firstName = attributes.firstName;
+    this.nickname = attributes.nickname;
+    this.lastName = attributes.lastName;
+    this.color = team.colors.mid;
 
+    this.frozen = false;
     this.startX = DEFAULT_PLAYER_POSITIONS[position].x;
     this.startY = DEFAULT_PLAYER_POSITIONS[position].y;
-    if (this.color === "Red") {
+    if (this.team.number === 2) {
       this.startY = -this.startY;
     }
 
@@ -142,9 +145,8 @@ class Player extends Component {
     const [x, y] = this.getXY();
     game.ball.moveTo(x, y);
     game.ball.player = this;
-    const positionName = getPlayerPositionFullName(this.position);
     game.message.set(
-      positionName + " for " + this.team + " team has the ball!",
+      this.lastName + " for " + this.team.name + " has the ball!",
       this.color
     );
     game.screenButton.setOnClick("game.ball.player.maybePassBall(event)");
@@ -164,13 +166,12 @@ class Player extends Component {
       game.screenButton.clearOnClick();
       this.passBall(targetX, targetY);
     } else {
-      game.message.set("Can't kick that far");
+      game.message.set(this.lastName + " can't kick that far");
     }
   }
 
   passBall(targetX, targetY) {
     this.freeze();
-    // game.ball.player = null;
     game.ball.moveTo(targetX, targetY);
     game.moveClosestPlayersTowardsBall(targetX, targetY);
   }

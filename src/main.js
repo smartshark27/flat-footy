@@ -2,7 +2,7 @@ var game;
 
 function handleLoad() {
   setViewbox(-(VIEWBOX_WIDTH / 2), -(VIEWBOX_HEIGHT / 2));
-  game = new Game(TOP_TEAM_NAME, BOTTOM_TEAM_NAME);
+  game = new Game(getCatsTeamAttributes(), getBombersTeamAttributes());
 }
 
 function setViewbox(x, y, width = VIEWBOX_WIDTH, height = VIEWBOX_HEIGHT) {

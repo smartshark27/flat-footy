@@ -7,7 +7,8 @@ const COLORS = {
   LIGHT_GREEN: "#1dad25",
   YELLOW: "Yellow",
   BLUE: "Blue",
-  RED: "Red"
+  RED: "Red",
+  NAVY: "Navy"
 };
 
 const FONTS = {

@@ -1,17 +1,19 @@
 class Team extends Component {
-  constructor(name, goalDirection) {
+  constructor(attributes, number) {
     super();
 
-    this.name = name;
-    this.color = name;
-    this.goalDirection = goalDirection; // Up or down
+    this.name = attributes.name;
+    this.nickname = attributes.nickname;
+    this.colors = attributes.colors;
+    this.players = attributes.players;
+    this.number = number;
 
     this.draw();
   }
 
   draw() {
     for (var position in DEFAULT_PLAYER_POSITIONS) {
-      this.addElement(new Player(position, this.name));
+      this.addElement(new Player(this, position, this.players[position]));
     }
   }
 

@@ -1,8 +1,8 @@
 class Game extends Component {
-  constructor(topTeamName, bottomTeamName) {
+  constructor(team1Attributes, team2Attributes) {
     super();
-    this.topTeamName = topTeamName;
-    this.bottomTeamName = bottomTeamName;
+    this.team1Attributes = team1Attributes;
+    this.team2Attributes = team2Attributes;
     this.intervals = [];
 
     this.draw();
@@ -11,13 +11,13 @@ class Game extends Component {
   draw() {
     this.field = new Field();
     this.addElement(this.field);
-    this.blueTeam = new Team(this.topTeamName);
-    this.addElement(this.blueTeam);
-    this.redTeam = new Team(this.bottomTeamName);
-    this.addElement(this.redTeam);
+    this.team1 = new Team(this.team1Attributes, 1);
+    this.addElement(this.team1);
+    this.team2 = new Team(this.team2Attributes, 2);
+    this.addElement(this.team2);
     this.ball = new Ball();
     this.addElement(this.ball);
-    this.scoreboard = new Scoreboard(this.blueTeam, this.redTeam);
+    this.scoreboard = new Scoreboard(this.team1, this.team2);
     this.addElement(this.scoreboard);
     this.message = new Message();
     this.addElement(this.message);
@@ -30,7 +30,6 @@ class Game extends Component {
     this.centreAt(0, 0);
     this.teleportAllPlayersToStartPositions();
     this.ball.reset();
-    console.log(this.ball.getXY());
     this.screenButton.setOnClick("game.start()");
   }
 
@@ -47,13 +46,13 @@ class Game extends Component {
   }
 
   moveClosestPlayersTowardsBall(ballX, ballY, tap = false) {
-    this.blueTeam.moveClosestPlayerTowardsBall(ballX, ballY, tap);
-    this.redTeam.moveClosestPlayerTowardsBall(ballX, ballY, tap);
+    this.team1.moveClosestPlayerTowardsBall(ballX, ballY, tap);
+    this.team2.moveClosestPlayerTowardsBall(ballX, ballY, tap);
   }
 
   freezeRuckmen() {
-    this.blueTeam.freezeRuckman();
-    this.redTeam.freezeRuckman();
+    this.team1.freezeRuckman();
+    this.team2.freezeRuckman();
   }
 
   clearAllIntervals() {
@@ -62,7 +61,7 @@ class Game extends Component {
   }
 
   getAllPlayers() {
-    return this.blueTeam.getPlayers().concat(this.redTeam.getPlayers());
+    return this.team1.getPlayers().concat(this.team2.getPlayers());
   }
 
   centreAt(x, y) {
@@ -72,7 +71,7 @@ class Game extends Component {
   }
 
   teleportAllPlayersToStartPositions() {
-    this.blueTeam.teleportPlayersToStartPositions();
-    this.redTeam.teleportPlayersToStartPositions();
+    this.team1.teleportPlayersToStartPositions();
+    this.team2.teleportPlayersToStartPositions();
   }
 }

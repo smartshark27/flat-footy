@@ -210,14 +210,14 @@ class Ball extends Component {
       this.hasCollidedWithPost(game.field.topLeftGoalPost) ||
       this.hasCollidedWithPost(game.field.topRightGoalPost)
     ) {
-      game.message.set("Hit the goal post!");
+      game.message.set(this.player.lastName + " has hit the post!");
       game.scoreboard.giveBehindToTopTeam();
       return true;
     } else if (
       this.hasCollidedWithPost(game.field.bottomLeftGoalPost) ||
       this.hasCollidedWithPost(game.field.bottomRightGoalPost)
     ) {
-      game.message.set("Hit the goal post!");
+      game.message.set(this.player.lastName + " has hit the post!");
       game.scoreboard.giveBehindToBottomTeam();
       return true;
     }
@@ -231,7 +231,7 @@ class Ball extends Component {
       this.hasCollidedWithPost(game.field.bottomLeftBehindPost) ||
       this.hasCollidedWithPost(game.field.bottomRightBehindPost)
     ) {
-      game.message.set("Hit the behind post. On the full!");
+      game.message.set(this.player.lastName + " has hit the post. On the full!");
       return true;
     } else {
       return false;
@@ -249,20 +249,20 @@ class Ball extends Component {
   hasCollidedWithGoalZone() {
     const [x, y] = this.getXY();
     if (isPointInRect(x, y, game.field.topGoalZone)) {
-      if (this.player.team === "Blue") {
-        game.message.set("GOAL!");
+      if (this.player.team.number === 1) {
+        game.message.set(this.player.lastName + " has scored a GOAL!");
         game.scoreboard.giveGoalToTopTeam();
       } else {
-        game.message.set("Behind");
+        game.message.set(this.player.lastName + " has scored a behind");
         game.scoreboard.giveBehindToTopTeam();
       }
       return true;
     } else if (isPointInRect(x, y, game.field.bottomGoalZone)) {
-      if (this.player.team === "Red") {
-        game.message.set("GOAL!");
+      if (this.player.team.number === 1) {
+        game.message.set(this.player.lastName + " has scored a GOAL!");
         game.scoreboard.giveGoalToBottomTeam();
       } else {
-        game.message.set("Behind");
+        game.message.set(this.player.lastName + " has scored a behind");
         game.scoreboard.giveBehindToBottomTeam();
       }
       return true;
@@ -278,13 +278,13 @@ class Ball extends Component {
       isPointInRect(x, y, game.field.topRightBehindZone)
     ) {
       game.scoreboard.giveBehindToTopTeam();
-      game.message.set("Behind");
+      game.message.set(this.player.lastName + " has scored a behind");
       return true;
     } else if (
       isPointInRect(x, y, game.field.bottomLeftBehindZone) ||
       isPointInRect(x, y, game.field.bottomRightBehindZone)
     ) {
-      game.message.set("Behind");
+      game.message.set(this.player.lastName + " has scored a behind");
       game.scoreboard.giveBehindToBottomTeam();
       return true;
     } else {
