@@ -1,23 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7587edl4brvi"]
+[gd_scene load_steps=5 format=3 uid="uid://b7587edl4brvi"]
 
-[ext_resource type="Texture2D" uid="uid://dlsnjuyka8o2o" path="res://art/MCG Field.png" id="1_8x17e"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_xfcjd"]
-radius = 705.0
+[ext_resource type="PackedScene" uid="uid://ckp1y3vmjner3" path="res://scenes/stadium.tscn" id="1_8w50r"]
+[ext_resource type="PackedScene" uid="uid://ckvijnqoqcvmj" path="res://scenes/player.tscn" id="2_sat0e"]
+[ext_resource type="PackedScene" uid="uid://ix6nge6vmt2n" path="res://scenes/ball.tscn" id="3_bigrn"]
+[ext_resource type="Script" path="res://scripts/team.gd" id="3_ue071"]
 
 [node name="Match" type="Node2D"]
 
-[node name="MCG" type="Node2D" parent="."]
-position = Vector2(-215, 110)
+[node name="Stadium" parent="." instance=ExtResource("1_8w50r")]
 
-[node name="TextureRect" type="TextureRect" parent="MCG"]
-offset_right = 1510.0
-offset_bottom = 1700.0
-texture = ExtResource("1_8x17e")
+[node name="Ball" parent="." instance=ExtResource("3_bigrn")]
+position = Vector2(450, 978)
 
-[node name="Boundary" type="Area2D" parent="MCG"]
+[node name="Team" type="Node2D" parent="." node_paths=PackedStringArray("ball")]
+script = ExtResource("3_ue071")
+ball = NodePath("../Ball")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MCG/Boundary"]
-position = Vector2(755, 850)
-scale = Vector2(1, 1.15)
-shape = SubResource("CircleShape2D_xfcjd")
+[node name="Player" parent="Team" instance=ExtResource("2_sat0e")]
+position = Vector2(597, 1002)

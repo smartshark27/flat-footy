@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckp1y3vmjner3"]
+
+[ext_resource type="Texture2D" uid="uid://dlsnjuyka8o2o" path="res://art/MCG Field.png" id="1_pbptb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xfcjd"]
+radius = 705.0
+
+[node name="Stadium" type="Node2D"]
+position = Vector2(-215, 110)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1510.0
+offset_bottom = 1700.0
+texture = ExtResource("1_pbptb")
+
+[node name="Boundary" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(755, 850)
+scale = Vector2(1, 1.15)
+shape = SubResource("CircleShape2D_xfcjd")
