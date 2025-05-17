@@ -1,2 +1,5 @@
 # flat-footy
-In development. A simple turn-based footy game.
+
+Trying to make a better game than AFL26.
+
+Play locally with `python3 serve.py --root docs`.
