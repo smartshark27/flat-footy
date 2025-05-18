@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7587edl4brvi"]
+[gd_scene load_steps=6 format=3 uid="uid://b7587edl4brvi"]
 
 [ext_resource type="PackedScene" uid="uid://ckp1y3vmjner3" path="res://scenes/stadium.tscn" id="1_8w50r"]
+[ext_resource type="Script" path="res://scripts/match.gd" id="1_xw5us"]
 [ext_resource type="PackedScene" uid="uid://ckvijnqoqcvmj" path="res://scenes/player.tscn" id="2_sat0e"]
 [ext_resource type="PackedScene" uid="uid://ix6nge6vmt2n" path="res://scenes/ball.tscn" id="3_bigrn"]
 [ext_resource type="Script" path="res://scripts/team.gd" id="3_ue071"]
 
 [node name="Match" type="Node2D"]
+script = ExtResource("1_xw5us")
 
 [node name="Stadium" parent="." instance=ExtResource("1_8w50r")]
 
@@ -18,3 +20,5 @@ ball = NodePath("../Ball")
 
 [node name="Player" parent="Team" instance=ExtResource("2_sat0e")]
 position = Vector2(597, 1002)
+
+[connection signal="ball_taken" from="Team/Player" to="." method="_on_player_ball_taken"]
