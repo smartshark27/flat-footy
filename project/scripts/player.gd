@@ -9,9 +9,15 @@ func _physics_process(delta: float) -> void:
 	var matchBall: Node2D = _get_match_ball()
 
 	if state == Globals.PlayerState.SEEKING_BALL and matchBall:
-		_move_toward(delta, matchBall.position)
+		if matchBall:
+			_move_toward(delta, matchBall.position)
+		else:
+			state = Globals.PlayerState.STANDING
 	elif state == Globals.PlayerState.HAS_BALL:
-		_move_toward(delta, Vector2(position.x, 0))
+		_move_toward(
+			delta,
+			_get_stadium().get_node("BlueGoalMiddle").global_position
+		)
 
 	_check_collisions()
 
@@ -34,13 +40,26 @@ func _check_collisions() -> void:
 
 
 func _take_possession() -> void:
-	$Camera2D.make_current()
-	state = Globals.PlayerState.HAS_BALL
 	var match_ball: Node2D = _get_match_ball()
-	if match_ball:
-		match_ball.queue_free()
+
+	# Transition camera smoothly from ball to player
+	var start_camera_pos: Vector2 = match_ball.get_node("Camera2D").global_position
+	var target_camera_pos: Vector2 = $Camera2D.global_position
+	$Camera2D.global_position = start_camera_pos.lerp(target_camera_pos, 0.1)
+	$Camera2D.make_current()
+
+	state = Globals.PlayerState.HAS_BALL
+	match_ball.queue_free()
 	$Ball.visible = true
 
 
 func _get_match_ball() -> Node2D:
-	return get_parent().get_parent().get_node("Ball")
+	return _get_match().get_node("Ball")
+
+
+func _get_stadium() -> Node2D:
+	return _get_match().get_node("Stadium")
+
+
+func _get_match() -> Node2D:
+	return get_parent().get_parent()
