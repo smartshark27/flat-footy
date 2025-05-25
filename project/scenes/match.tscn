@@ -12,7 +12,7 @@ script = ExtResource("1_xw5us")
 [node name="Stadium" parent="." instance=ExtResource("1_8w50r")]
 
 [node name="Ball" parent="." instance=ExtResource("3_bigrn")]
-position = Vector2(450, 978)
+position = Vector2(829, 668)
 
 [node name="Team" type="Node2D" parent="." node_paths=PackedStringArray("ball")]
 script = ExtResource("3_ue071")
@@ -20,7 +20,7 @@ ball = NodePath("../Ball")
 attack_direction = "blue"
 
 [node name="Player" parent="Team" instance=ExtResource("2_sat0e")]
-position = Vector2(597, 1002)
+position = Vector2(875, 707)
 
 [node name="Player2" parent="Team" instance=ExtResource("2_sat0e")]
-position = Vector2(377, 774)
+position = Vector2(462, 637)

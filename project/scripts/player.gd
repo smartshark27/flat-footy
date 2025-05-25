@@ -1,6 +1,10 @@
 extends CharacterBody2D
 
-const RUN_SPEED: float = 50.0
+const RUN_SPEED: float = 7 * Globals.PIXEL_PER_METRE
+const MAX_KICK_METRES: float = 60.0
+const BALL_PLAYER_DISPOSAL_SEPARATION = 24.0
+
+const BALL_SCENE: PackedScene = preload("res://scenes/ball.tscn")
 
 var state: Globals.PlayerState = Globals.PlayerState.STANDING
 
@@ -14,22 +18,56 @@ func _physics_process(delta: float) -> void:
 		else:
 			state = Globals.PlayerState.STANDING
 	elif state == Globals.PlayerState.HAS_BALL:
-		_move_toward(
-			delta,
-			_get_stadium().get_node("BlueGoalMiddle").global_position
-		)
+		_decide_what_to_do_with_ball(delta)
 
 	_check_collisions()
 
 
+func _decide_what_to_do_with_ball(delta: float) -> void:
+	if randf() < delta:
+		# Only do something once per second on average in case of frame rate changes
+		const kick_range: float = MAX_KICK_METRES * Globals.PIXEL_PER_METRE
+		var distance_from_goal: float = _get_distance_from_goal()
+		if distance_from_goal < kick_range:
+			var kick_at_goal_chance: float = (kick_range - distance_from_goal) / kick_range
+			if randf() < kick_at_goal_chance:
+				_kick_ball_at_goal()
+				state = Globals.PlayerState.STANDING
+
+	_move_toward(delta, _get_stadium().get_node("BlueGoalMiddle").global_position)
+
+
+func _get_distance_from_goal() -> float:
+	return position.distance_to(_get_stadium().get_node("BlueGoalMiddle").global_position)
+
+
+func _kick_ball_at_goal() -> void:
+	print("kicking at goal")
+
+	var kick_aim_length: float = maxf(MAX_KICK_METRES * Globals.PIXEL_PER_METRE,
+			_get_distance_from_goal() + 10)
+	var target_direction: Vector2 = (
+		_get_stadium().get_node("BlueGoalMiddle").global_position - global_position
+	).normalized()
+	var target_point: Vector2 = global_position + (target_direction * kick_aim_length)
+
+	var match_ball = BALL_SCENE.instantiate()
+	var ball_pos: Vector2 = global_position + (target_direction * BALL_PLAYER_DISPOSAL_SEPARATION)
+	match_ball.global_position = ball_pos
+	#print("kick_aim_length", kick_aim_length)
+	#print("target_direction", target_direction)
+	#print("target_point", target_point)
+	#print("ball_pos", ball_pos)
+
+	_get_match().add_child(match_ball)
+
+	$Ball.visible = false
+	pass
+
+
 func _move_toward(delta: float, target: Vector2) -> void:
-	# Calculate the direction vector
-	var direction = target - self.position
-	# Normalize the direction vector
-	direction = direction.normalized()
-	# Set the velocity based on direction and speed
+	var direction = (target - self.position).normalized()
 	velocity = direction * RUN_SPEED
-	# Move the character body and handle collisions
 	move_and_slide()
 
 
