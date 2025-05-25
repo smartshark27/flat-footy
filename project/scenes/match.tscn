@@ -22,4 +22,5 @@ attack_direction = "blue"
 [node name="Player" parent="Team" instance=ExtResource("2_sat0e")]
 position = Vector2(597, 1002)
 
-[connection signal="ball_taken" from="Team/Player" to="." method="_on_player_ball_taken"]
+[node name="Player2" parent="Team" instance=ExtResource("2_sat0e")]
+position = Vector2(377, 774)
