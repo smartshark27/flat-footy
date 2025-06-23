@@ -13,28 +13,26 @@ func _physics_process(delta: float) -> void:
 	var matchBall: Node2D = _get_match_ball()
 
 	if state == Globals.PlayerState.SEEKING_BALL and matchBall:
-		if matchBall:
-			_move_toward(delta, matchBall.position)
-		else:
-			state = Globals.PlayerState.STANDING
+		_move_toward(delta, matchBall.position)
 	elif state == Globals.PlayerState.HAS_BALL:
-		_decide_what_to_do_with_ball(delta)
+		_move_toward(delta, _get_stadium().get_node("BlueGoalMiddle").global_position)
 
 	_check_collisions()
 
 
-func _decide_what_to_do_with_ball(delta: float) -> void:
-	if randf() < delta:
-		# Only do something once per second on average in case of frame rate changes
-		const kick_range: float = MAX_KICK_METRES * Globals.PIXEL_PER_METRE
-		var distance_from_goal: float = _get_distance_from_goal()
-		if distance_from_goal < kick_range:
-			var kick_at_goal_chance: float = (kick_range - distance_from_goal) / kick_range
-			if randf() < kick_at_goal_chance:
-				_kick_ball_at_goal()
-				state = Globals.PlayerState.STANDING
+func _on_think_timer_timeout() -> void:
+	if state == Globals.PlayerState.HAS_BALL:
+		_decide_what_to_do_with_ball()
 
-	_move_toward(delta, _get_stadium().get_node("BlueGoalMiddle").global_position)
+
+func _decide_what_to_do_with_ball() -> void:
+	const kick_range: float = MAX_KICK_METRES * Globals.PIXEL_PER_METRE
+	var distance_from_goal: float = _get_distance_from_goal()
+	if distance_from_goal < kick_range:
+		var kick_at_goal_chance: float = (kick_range - distance_from_goal) / kick_range
+		if randf() < kick_at_goal_chance:
+			_kick_ball_at_goal()
+			state = Globals.PlayerState.STANDING
 
 
 func _get_distance_from_goal() -> float:
@@ -62,7 +60,6 @@ func _kick_ball_at_goal() -> void:
 	_get_match().add_child(match_ball)
 
 	$Ball.visible = false
-	pass
 
 
 func _move_toward(delta: float, target: Vector2) -> void:
