@@ -52,6 +52,7 @@ func _kick_ball_at_goal() -> void:
 	var match_ball = BALL_SCENE.instantiate()
 	var ball_pos: Vector2 = global_position + (target_direction * BALL_PLAYER_DISPOSAL_SEPARATION)
 	match_ball.global_position = ball_pos
+	match_ball.kick_at(target_point)
 	#print("kick_aim_length", kick_aim_length)
 	#print("target_direction", target_direction)
 	#print("target_point", target_point)

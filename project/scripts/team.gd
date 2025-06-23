@@ -3,6 +3,7 @@ extends Node2D
 @export var ball: CharacterBody2D
 @export var attack_direction: String
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Player.state = Globals.PlayerState.SEEKING_BALL
