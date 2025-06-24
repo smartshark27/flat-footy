@@ -64,7 +64,7 @@ func _kick_ball_at_goal() -> void:
 
 
 func _move_toward(delta: float, target: Vector2) -> void:
-	var direction = (target - self.position).normalized()
+	var direction = (target - position).normalized()
 	velocity = direction * RUN_SPEED
 	move_and_slide()
 
