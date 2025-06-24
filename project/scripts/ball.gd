@@ -3,6 +3,7 @@ extends CharacterBody2D
 const SPEED = 15 * Globals.PIXEL_PER_METRE
 const BASE_SPRITE_SCALE = 0.5
 const HEIGHT_TO_SPRITE_SCALE = 0.04
+const HEIGHT_PER_SPIN = 4
 
 var is_moving: bool = false
 var move_source: Vector2
@@ -25,9 +26,10 @@ func kick_at(target: Vector2) -> void:
 
 func _move_toward(delta: float) -> void:
 	var direction = (move_target - global_position).normalized()
+	$Sprite2D.rotation = direction.angle() + PI / 2
 	velocity = direction * SPEED
 	move_and_slide()
-	
+
 	_set_height()
 
 	if global_position.distance_to(move_target) < 2:
@@ -51,4 +53,5 @@ func _stop_moving() -> void:
 
 func _set_sprite_size_from_height() -> void:
 	var new_scale = BASE_SPRITE_SCALE + HEIGHT_TO_SPRITE_SCALE * height
-	$Sprite2D.scale = Vector2(new_scale, new_scale)
+	var spin_scale = new_scale * lerpf(1.0, 0.5, fmod(height, HEIGHT_PER_SPIN) / HEIGHT_PER_SPIN)
+	$Sprite2D.scale = Vector2(new_scale, spin_scale)

@@ -53,10 +53,6 @@ func _kick_ball_at_goal() -> void:
 	var ball_pos: Vector2 = global_position + (target_direction * BALL_PLAYER_DISPOSAL_SEPARATION)
 	match_ball.global_position = ball_pos
 	match_ball.kick_at(target_point)
-	#print("kick_aim_length", kick_aim_length)
-	#print("target_direction", target_direction)
-	#print("target_point", target_point)
-	#print("ball_pos", ball_pos)
 
 	_get_match().add_child(match_ball)
 
@@ -65,6 +61,7 @@ func _kick_ball_at_goal() -> void:
 
 func _move_toward(delta: float, target: Vector2) -> void:
 	var direction = (target - position).normalized()
+	$Ball.rotation = direction.angle() + PI / 2
 	velocity = direction * RUN_SPEED
 	move_and_slide()
 
