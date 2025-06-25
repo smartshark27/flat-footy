@@ -7,7 +7,7 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Player.state = Globals.PlayerState.SEEKING_BALL
-	$Player2.state = Globals.PlayerState.SEEKING_BALL
+	#$Player2.state = Globals.PlayerState.SEEKING_BALL
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

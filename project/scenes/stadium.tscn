@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckp1y3vmjner3"]
+[gd_scene load_steps=4 format=3 uid="uid://ckp1y3vmjner3"]
 
 [ext_resource type="Texture2D" uid="uid://dlsnjuyka8o2o" path="res://art/MCG Field.png" id="1_pbptb"]
+[ext_resource type="PackedScene" uid="uid://bnfnaf40wrt55" path="res://scenes/post.tscn" id="2_7433m"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xfcjd"]
 radius = 705.0
@@ -25,3 +26,27 @@ position = Vector2(755, 58)
 
 [node name="RedGoalMiddle" type="Node2D" parent="."]
 position = Vector2(755, 1642)
+
+[node name="BlueLeftBehindPost" parent="." instance=ExtResource("2_7433m")]
+position = Vector2(659, 60)
+
+[node name="BlueLeftGoalPost" parent="." instance=ExtResource("2_7433m")]
+position = Vector2(723, 60)
+
+[node name="BlueRightGoalPost" parent="." instance=ExtResource("2_7433m")]
+position = Vector2(787, 60)
+
+[node name="BlueRightBehindPost" parent="." instance=ExtResource("2_7433m")]
+position = Vector2(851, 60)
+
+[node name="RedLeftBehindPost" parent="." instance=ExtResource("2_7433m")]
+position = Vector2(659, 1639)
+
+[node name="RedLeftGoalPost" parent="." instance=ExtResource("2_7433m")]
+position = Vector2(723, 1640)
+
+[node name="RedRightGoalPost" parent="." instance=ExtResource("2_7433m")]
+position = Vector2(787, 1640)
+
+[node name="RedRightBehindPost" parent="." instance=ExtResource("2_7433m")]
+position = Vector2(851, 1639)

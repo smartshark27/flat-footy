@@ -30,12 +30,33 @@ func _move_toward(delta: float) -> void:
 	velocity = direction * SPEED
 	move_and_slide()
 
+	_check_collision()
+
 	_set_height()
 
 	if global_position.distance_to(move_target) < 2:
 		_stop_moving()
-	
+
 	_set_sprite_size_from_height()
+
+
+func _check_collision() -> void:
+	var collision = get_last_slide_collision()
+	if collision:
+		var collider = collision.get_collider()
+		var stadium = _get_stadium()
+		if collider in [stadium.get_node("BlueLeftBehindPost"), stadium.get_node("BlueRightBehindPost")]:
+			print("Hit blue behind post")
+			_stop_moving()
+		if collider in [stadium.get_node("BlueLeftGoalPost"), stadium.get_node("BlueRightGoalPost")]:
+			print("Hit blue goal post")
+			_stop_moving()
+		if collider in [stadium.get_node("RedLeftBehindPost"), stadium.get_node("RedRightBehindPost")]:
+			print("Hit red behind post")
+			_stop_moving()
+		if collider in [stadium.get_node("RedLeftGoalPost"), stadium.get_node("RedRightGoalPost")]:
+			print("Hit red goal post")
+			_stop_moving()
 
 
 func _set_height() -> void:
@@ -55,3 +76,11 @@ func _set_sprite_size_from_height() -> void:
 	var new_scale = BASE_SPRITE_SCALE + HEIGHT_TO_SPRITE_SCALE * height
 	var spin_scale = new_scale * lerpf(1.0, 0.5, fmod(height, HEIGHT_PER_SPIN) / HEIGHT_PER_SPIN)
 	$Sprite2D.scale = Vector2(new_scale, spin_scale)
+
+
+func _get_stadium() -> Node2D:
+	return _get_match().get_node("Stadium")
+
+
+func _get_match() -> Node2D:
+	return get_parent()

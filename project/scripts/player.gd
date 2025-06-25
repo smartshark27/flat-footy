@@ -30,9 +30,10 @@ func _decide_what_to_do_with_ball() -> void:
 	var distance_from_goal: float = _get_distance_from_goal()
 	if distance_from_goal < kick_range:
 		var kick_at_goal_chance: float = (kick_range - distance_from_goal) / kick_range
-		if randf() < kick_at_goal_chance:
-			_kick_ball_at_goal()
-			state = Globals.PlayerState.STANDING
+	 	#Tmp always kick immediately
+		#if randf() < kick_at_goal_chance:
+		_kick_ball_at_goal()
+		state = Globals.PlayerState.STANDING
 
 
 func _get_distance_from_goal() -> float:
@@ -45,7 +46,7 @@ func _kick_ball_at_goal() -> void:
 	var kick_aim_length: float = maxf(MAX_KICK_METRES * Globals.PIXEL_PER_METRE,
 			_get_distance_from_goal() + 10)
 	var target_direction: Vector2 = (
-		_get_stadium().get_node("BlueGoalMiddle").global_position - global_position
+		_get_stadium().get_node("BlueGoalMiddle").global_position + Vector2(30, 0) - global_position
 	).normalized()
 	var target_point: Vector2 = global_position + (target_direction * kick_aim_length)
 
