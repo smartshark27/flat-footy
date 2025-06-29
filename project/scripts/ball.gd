@@ -13,6 +13,15 @@ var move_target: Vector2
 var height: float = 1
 
 
+func _ready() -> void:
+	# Trigger function when ball exits boundary line
+	_get_stadium().get_node("Boundary").body_exited.connect(_on_ball_exited_boundary)
+
+
+func _on_ball_exited_boundary(ball: Node2D) -> void:
+	print("ball has crossed boundary")
+
+
 func _physics_process(delta: float) -> void:
 	if is_moving:
 		_move_toward(delta)
