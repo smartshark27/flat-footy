@@ -14,12 +14,49 @@ var height: float = 1
 
 
 func _ready() -> void:
+	_connect_signals()
+
+
+func _exit_tree() -> void:
+	_disconnect_signals()
+
+
+func _connect_signals() -> void:
+	var stadium: Node2D = _get_stadium()
 	# Trigger function when ball exits boundary line
-	_get_stadium().get_node("Boundary").body_exited.connect(_on_ball_exited_boundary)
+	stadium.get_node("Boundary").body_exited.connect(_on_exited_boundary)
+	stadium.get_node("BlueGoalZone").body_entered.connect(_on_pass_through_goal_posts)
+	stadium.get_node("RedGoalZone").body_entered.connect(_on_pass_through_goal_posts)
+	stadium.get_node("BlueLeftBehindZone").body_entered.connect(_on_pass_through_behind_posts)
+	stadium.get_node("BlueRightBehindZone").body_entered.connect(_on_pass_through_behind_posts)
+	stadium.get_node("RedLeftBehindZone").body_entered.connect(_on_pass_through_behind_posts)
+	stadium.get_node("RedRightBehindZone").body_entered.connect(_on_pass_through_behind_posts)
 
 
-func _on_ball_exited_boundary(ball: Node2D) -> void:
+func _disconnect_signals() -> void:
+	var stadium: Node2D = _get_stadium()
+	stadium.get_node("Boundary").body_exited.disconnect(_on_exited_boundary)
+	stadium.get_node("BlueGoalZone").body_entered.disconnect(_on_pass_through_goal_posts)
+	stadium.get_node("RedGoalZone").body_entered.disconnect(_on_pass_through_goal_posts)
+	stadium.get_node("BlueLeftBehindZone").body_entered.disconnect(_on_pass_through_behind_posts)
+	stadium.get_node("BlueRightBehindZone").body_entered.disconnect(_on_pass_through_behind_posts)
+	stadium.get_node("RedLeftBehindZone").body_entered.disconnect(_on_pass_through_behind_posts)
+	stadium.get_node("RedRightBehindZone").body_entered.disconnect(_on_pass_through_behind_posts)
+	
+
+func _on_exited_boundary(ball: Node2D) -> void:
 	print("ball has crossed boundary")
+	_stop_moving()
+
+
+func _on_pass_through_goal_posts(ball: Node2D) -> void:
+	print("ball has passed through goal posts")
+	_stop_moving()
+
+
+func _on_pass_through_behind_posts(ball: Node2D) -> void:
+	print("ball has passed through behind posts")
+	_stop_moving()
 
 
 func _physics_process(delta: float) -> void:
