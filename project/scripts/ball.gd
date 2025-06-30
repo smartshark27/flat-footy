@@ -42,7 +42,7 @@ func _disconnect_signals() -> void:
 	stadium.get_node("BlueRightBehindZone").body_entered.disconnect(_on_pass_through_behind_posts)
 	stadium.get_node("RedLeftBehindZone").body_entered.disconnect(_on_pass_through_behind_posts)
 	stadium.get_node("RedRightBehindZone").body_entered.disconnect(_on_pass_through_behind_posts)
-	
+
 
 func _on_exited_boundary(ball: Node2D) -> void:
 	print("ball has crossed boundary")

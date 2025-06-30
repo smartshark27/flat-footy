@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@export var team_position: Globals.TeamPosition
+
 const RUN_SPEED: float = 7 * Globals.PIXEL_PER_METRE
 const MAX_KICK_METRES: float = 60.0
 const BALL_PLAYER_DISPOSAL_SEPARATION = 24.0

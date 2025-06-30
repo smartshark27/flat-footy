@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://b7587edl4brvi"]
+[gd_scene load_steps=7 format=3 uid="uid://b7587edl4brvi"]
 
 [ext_resource type="PackedScene" uid="uid://ckp1y3vmjner3" path="res://scenes/stadium.tscn" id="1_8w50r"]
 [ext_resource type="Script" path="res://scripts/match.gd" id="1_xw5us"]
-[ext_resource type="PackedScene" uid="uid://ckvijnqoqcvmj" path="res://scenes/player.tscn" id="2_sat0e"]
 [ext_resource type="PackedScene" uid="uid://ix6nge6vmt2n" path="res://scenes/ball.tscn" id="3_bigrn"]
-[ext_resource type="Script" path="res://scripts/team.gd" id="3_ue071"]
+[ext_resource type="PackedScene" uid="uid://l24752vdx8y8" path="res://scenes/team.tscn" id="4_tf8dd"]
+[ext_resource type="Texture2D" uid="uid://doaesqebywamp" path="res://art/Blue Circle.png" id="5_fdquj"]
+[ext_resource type="Texture2D" uid="uid://br8nr18cclnhj" path="res://art/Red Circle.png" id="6_uhq74"]
 
 [node name="Match" type="Node2D"]
 script = ExtResource("1_xw5us")
@@ -14,13 +15,12 @@ script = ExtResource("1_xw5us")
 [node name="Ball" parent="." instance=ExtResource("3_bigrn")]
 position = Vector2(728, 480)
 
-[node name="Team" type="Node2D" parent="." node_paths=PackedStringArray("ball")]
-script = ExtResource("3_ue071")
-ball = NodePath("../Ball")
+[node name="BlueTeam" parent="." instance=ExtResource("4_tf8dd")]
+position = Vector2(557, 1412)
 attack_direction = "blue"
+player_texture = ExtResource("5_fdquj")
 
-[node name="Player" parent="Team" instance=ExtResource("2_sat0e")]
-position = Vector2(766, 535)
-
-[node name="Player2" parent="Team" instance=ExtResource("2_sat0e")]
-position = Vector2(427, 377)
+[node name="RedTeam" parent="." instance=ExtResource("4_tf8dd")]
+position = Vector2(549, 396)
+attack_direction = "red"
+player_texture = ExtResource("6_uhq74")
