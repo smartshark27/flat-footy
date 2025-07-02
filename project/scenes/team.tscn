@@ -8,71 +8,89 @@ script = ExtResource("1_vu78q")
 
 [node name="LeftBackPocket" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(-22, -22)
+centre_bounce_position = Vector2(421, 301)
 
 [node name="FullBack" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(21, -19)
 team_position = 1
+centre_bounce_position = Vector2(540, 394)
 
 [node name="RightBackPocket" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(27, 10)
 team_position = 2
+centre_bounce_position = Vector2(661, 294)
 
 [node name="LeftHalfBack" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(-32, 9)
 team_position = 3
+centre_bounce_position = Vector2(287, 608)
 
 [node name="CentreHalfBack" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(1, -44)
 team_position = 4
+centre_bounce_position = Vector2(540, 614)
 
 [node name="RightHalfBack" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(3, 34)
 team_position = 5
+centre_bounce_position = Vector2(771, 608)
 
 [node name="LeftWing" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(-33, 37)
 team_position = 6
+centre_bounce_position = Vector2(253, 957)
 
 [node name="Centre" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(51, -12)
 team_position = 7
+centre_bounce_position = Vector2(480, 957)
 
 [node name="RightWing" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(32, 35)
 team_position = 8
+centre_bounce_position = Vector2(818, 954)
 
 [node name="LeftHalfForward" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(-55, -16)
 team_position = 9
+centre_bounce_position = Vector2(316, 1293)
 
 [node name="CentreHalfForward" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(-62, 19)
 team_position = 10
+centre_bounce_position = Vector2(540, 1291)
 
 [node name="RightHalfForward" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(-7, 62)
 team_position = 11
+centre_bounce_position = Vector2(756, 1292)
 
 [node name="LeftForwardPocket" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(29, 62)
 team_position = 12
+centre_bounce_position = Vector2(338, 1585)
 
 [node name="FullForward" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(35, -43)
 team_position = 13
+centre_bounce_position = Vector2(540, 1640)
 
 [node name="RightForwardPocket" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(56, 18)
 team_position = 14
+centre_bounce_position = Vector2(682, 1595)
 
 [node name="Ruck" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(-39, -45)
 team_position = 15
+centre_bounce_position = Vector2(540, 919)
 
 [node name="RuckRover" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(-47, 63)
 team_position = 16
+centre_bounce_position = Vector2(517, 1013)
 
 [node name="Rover" parent="." groups=["players"] instance=ExtResource("2_6yshf")]
 position = Vector2(58, 46)
 team_position = 17
+centre_bounce_position = Vector2(568, 899)

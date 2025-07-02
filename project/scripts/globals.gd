@@ -1,9 +1,11 @@
 extends Node
 
+const CENTRE = Vector2(540, 960)
 const PIXEL_PER_METRE: float = 10.0
 
 enum PlayerState {
 	STANDING,
+	MOVING_TO_START_POSITION,
 	SEEKING_BALL,
 	HAS_BALL,
 	PASSING

@@ -69,3 +69,6 @@ position = Vector2(690, 1656)
 
 [node name="RedRightBehindZone" parent="." instance=ExtResource("3_wu0ev")]
 position = Vector2(820, 1656)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(756, 850)

@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var team_position: Globals.TeamPosition
+@export var centre_bounce_position: Vector2
 
 const RUN_SPEED: float = 7 * Globals.PIXEL_PER_METRE
 const MAX_KICK_METRES: float = 60.0
@@ -14,12 +15,13 @@ var state: Globals.PlayerState = Globals.PlayerState.STANDING
 func _physics_process(delta: float) -> void:
 	var matchBall: Node2D = _get_match_ball()
 
-	if state == Globals.PlayerState.SEEKING_BALL and matchBall:
+	if state == Globals.PlayerState.MOVING_TO_START_POSITION:
+		_move_toward(delta, centre_bounce_position)
+	elif state == Globals.PlayerState.SEEKING_BALL and matchBall:
 		_move_toward(delta, matchBall.position)
+		_check_collisions()
 	elif state == Globals.PlayerState.HAS_BALL:
 		_move_toward(delta, _get_stadium().get_node("BlueGoalMiddle").global_position)
-
-	_check_collisions()
 
 
 func _on_think_timer_timeout() -> void:
@@ -67,7 +69,7 @@ func _kick_ball_at_goal() -> void:
 
 
 func _move_toward(delta: float, target: Vector2) -> void:
-	var direction = (target - position).normalized()
+	var direction = (target - global_position).normalized()
 	$Ball.rotation = direction.angle() + PI / 2
 	velocity = direction * RUN_SPEED
 	move_and_slide()

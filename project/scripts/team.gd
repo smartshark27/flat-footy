@@ -22,6 +22,10 @@ func _init_players() -> void:
 
 func _init_player(player: CharacterBody2D) -> void:
 	player.get_node("Sprite2D").texture = player_texture
+	if attack_direction == "blue":
+		# Flip the starting positions
+		player.centre_bounce_position = Globals.CENTRE - (player.centre_bounce_position - Globals.CENTRE)
+	player.state = Globals.PlayerState.MOVING_TO_START_POSITION
 
 
 func _get_players() -> Array[CharacterBody2D]:
