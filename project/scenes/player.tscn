@@ -24,4 +24,7 @@ enabled = false
 [node name="ThinkTimer" type="Timer" parent="."]
 autostart = true
 
+[node name="BumpTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="ThinkTimer" to="." method="_on_think_timer_timeout"]

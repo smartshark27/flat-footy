@@ -13,7 +13,7 @@ script = ExtResource("1_xw5us")
 [node name="Stadium" parent="." instance=ExtResource("1_8w50r")]
 
 [node name="Ball" parent="." instance=ExtResource("3_bigrn")]
-position = Vector2(539, 960)
+position = Vector2(1268, 946)
 
 [node name="BlueTeam" parent="." instance=ExtResource("4_tf8dd")]
 position = Vector2(557, 1412)

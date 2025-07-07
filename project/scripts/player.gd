@@ -3,7 +3,9 @@ extends CharacterBody2D
 @export var team_position: Globals.TeamPosition
 @export var centre_bounce_position: Vector2
 
-const RUN_SPEED: float = 7 * Globals.PIXEL_PER_METRE
+const RUN_SPEED: float = 7 * Globals.PIXEL_PER_METRE * 2
+const BUMP_MULTIPLIER: float = 8.0
+const BUMP_ROTATION: float = PI / 10
 const MAX_KICK_METRES: float = 60.0
 const BALL_PLAYER_DISPOSAL_SEPARATION = 24.0
 
@@ -16,12 +18,14 @@ func _physics_process(delta: float) -> void:
 	var matchBall: Node2D = _get_match_ball()
 
 	if state == Globals.PlayerState.MOVING_TO_START_POSITION:
-		_move_toward(delta, centre_bounce_position)
+		#_move_toward_nav_target()
+		_move_toward(centre_bounce_position)
+		_check_collisions(delta)
 	elif state == Globals.PlayerState.SEEKING_BALL and matchBall:
-		_move_toward(delta, matchBall.position)
-		_check_collisions()
+		_move_toward(matchBall.position)
+		_check_collisions(delta)
 	elif state == Globals.PlayerState.HAS_BALL:
-		_move_toward(delta, _get_stadium().get_node("BlueGoalMiddle").global_position)
+		_move_toward(_get_stadium().get_node("BlueGoalMiddle").global_position)
 
 
 func _on_think_timer_timeout() -> void:
@@ -68,17 +72,22 @@ func _kick_ball_at_goal() -> void:
 	$Ball.visible = false
 
 
-func _move_toward(delta: float, target: Vector2) -> void:
-	var direction = (target - global_position).normalized()
-	$Ball.rotation = direction.angle() + PI / 2
-	velocity = direction * RUN_SPEED
-	move_and_slide()
+func _move_toward(target: Vector2) -> void:
+	if global_position.distance_to(target) > 2:
+		var direction = (target - global_position).normalized()
+		$Ball.rotation = direction.angle() + PI / 2
+		velocity = direction * RUN_SPEED
+		move_and_slide()
 
 
-func _check_collisions() -> void:
+func _check_collisions(delta: float) -> void:
 	var collision: KinematicCollision2D = get_last_slide_collision()
-	if collision && collision.get_collider().name == "Ball":
-		_take_possession()
+	if collision:
+		var collider: Node2D = collision.get_collider()
+		if collider.name == "Ball":
+			_take_possession()
+		elif collider.is_in_group("players"):
+			_bump(collider, collision.get_normal().rotated(BUMP_ROTATION))
 
 
 func _take_possession() -> void:
@@ -93,6 +102,16 @@ func _take_possession() -> void:
 	state = Globals.PlayerState.HAS_BALL
 	match_ball.queue_free()
 	$Ball.visible = true
+
+
+func _bump(player: CharacterBody2D, direction: Vector2) -> void:
+	if $BumpTimer.is_stopped():
+		player.get_bumped(direction)
+		$BumpTimer.start()
+
+func get_bumped(direction: Vector2) -> void:
+	$BumpTimer.start()
+	global_position = global_position - direction * BUMP_MULTIPLIER
 
 
 func _get_match_ball() -> Node2D:
