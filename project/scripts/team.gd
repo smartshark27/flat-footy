@@ -4,6 +4,10 @@ extends Node2D
 @export var player_texture: Texture2D
 
 
+func teleport_to_centre_bounce_positions() -> void:
+	for player in _get_players():
+		player.teleport_to_centre_bounce_position()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	print("Initialisating team")

@@ -4,7 +4,8 @@ extends CharacterBody2D
 @export var centre_bounce_position: Vector2
 
 const RUN_SPEED: float = 7 * Globals.PIXEL_PER_METRE * 2
-const BUMP_MULTIPLIER: float = 8.0
+const BUMP_MULTIPLIER: float = 10.0
+# Rotate bump angle so that players can move past each other
 const BUMP_ROTATION: float = PI / 10
 const MAX_KICK_METRES: float = 60.0
 const BALL_PLAYER_DISPOSAL_SEPARATION = 24.0
@@ -13,6 +14,16 @@ const BALL_SCENE: PackedScene = preload("res://scenes/ball.tscn")
 
 var state: Globals.PlayerState = Globals.PlayerState.STANDING
 
+
+func teleport_to_centre_bounce_position() -> void:
+	state = Globals.PlayerState.STANDING
+	global_position = centre_bounce_position
+
+
+func get_bumped(direction: Vector2) -> void:
+	$BumpTimer.start()
+	global_position = global_position - direction * BUMP_MULTIPLIER
+	
 
 func _physics_process(delta: float) -> void:
 	var matchBall: Node2D = _get_match_ball()
@@ -56,10 +67,6 @@ func _kick_ball_at_goal() -> void:
 	var target_direction: Vector2 = (
 		_get_stadium().get_node("BlueGoalMiddle").global_position - global_position
 	).normalized()
-	# Uncomment to temporarily change direction
-	#var target_direction: Vector2 = (
-		#_get_stadium().get_node("BlueGoalMiddle").global_position + Vector2(150, 0) - global_position
-	#).normalized()
 	var target_point: Vector2 = global_position + (target_direction * kick_aim_length)
 
 	var match_ball = BALL_SCENE.instantiate()
@@ -108,10 +115,6 @@ func _bump(player: CharacterBody2D, direction: Vector2) -> void:
 	if $BumpTimer.is_stopped():
 		player.get_bumped(direction)
 		$BumpTimer.start()
-
-func get_bumped(direction: Vector2) -> void:
-	$BumpTimer.start()
-	global_position = global_position - direction * BUMP_MULTIPLIER
 
 
 func _get_match_ball() -> Node2D:
